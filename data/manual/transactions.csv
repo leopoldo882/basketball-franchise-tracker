@@ -1,0 +1,13 @@
+date,league,team,buyer,buyer_type,stake_pct,control,price_usd_m,implied_valuation_usd_m,source_url,notes
+2025-06,NBA,Los Angeles Lakers,Mark Walter,individual/TWG Global,,y,,10000,https://www.sportico.com/business/team-sales/2025/los-angeles-lakers-sale-mark-walter-nba-1234875227/,Buss family retains ~15%; approved by NBA owners
+2025,NBA,Boston Celtics,Bill Chisholm group,individual+PE,51,y,,6100,https://www.espn.com/nba/story/_/id/45969002/nba-approves-celtics-sale-record-61-billion-valuation,Full control by 2028 at valuation up to ~7300
+2025,NBA,Boston Celtics,Sixth Street,private equity,12.5,n,,6100,https://www.sportico.com/business/team-sales/2025/boston-celtics-sale-nba-chisholm-approved-1234862991/,Part of Chisholm takeover
+2025,NBA,Portland Trail Blazers,Tom Dundon group,individual,,y,,4250,https://www.sportico.com/,Agreed 2025; verify closing status and source link
+2023-12,NBA,Dallas Mavericks,Adelson/Dumont families,individual,,y,,3500,,Majority stake from Mark Cuban; verify exact figure and add source
+2023-02,NBA,Phoenix Suns,Mat Ishbia,individual,,y,,4000,,Includes WNBA Mercury; verify and add source
+2023,NBA,Charlotte Hornets,Plotkin/Schnall group,individual,,y,,3000,,From Michael Jordan; verify and add source
+2021,NBA,Golden State Warriors,Arctos Partners,private equity,5,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Minority stake
+2021,NBA,Sacramento Kings,Arctos Partners,private equity,17,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Minority stake
+2022,NBA,Utah Jazz,Arctos Partners,private equity,,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Undisclosed minority stake
+2026,NBA Europe,League franchise licenses,20+ bidding groups,mixed (incl. PSG/RM/Milan owners; sovereign funds),,,,1000,https://www.sportico.com/leagues/basketball/2026/nba-expansion-seattle-las-vegas-europe-fee-1234888262/,Reported bids topping $1B in select markets; 16-team league targeted Oct 2027; not a closed deal
+2025,EuroLeague,Dubai Basketball,,,,,,,,5-year wildcard entry 2025-26; no purchase price disclosed; context row

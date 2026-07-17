@@ -1,0 +1,90 @@
+season,team_code,team_name,canonical_name,rs_rank,wins,losses
+2021-22,BAR,FC Barcelona,FC Barcelona,1,21,7
+2021-22,OLY,Olympiacos Piraeus,Olympiacos Piraeus,2,19,9
+2021-22,MIL,AX Armani Exchange Milan,Olimpia Milano,3,19,9
+2021-22,MAD,Real Madrid,Real Madrid,4,18,10
+2021-22,TEL,Maccabi Playtika Tel Aviv,Maccabi Tel Aviv,5,17,11
+2021-22,IST,Anadolu Efes Istanbul,Anadolu Efes,6,16,12
+2021-22,MCO,AS Monaco,AS Monaco,7,15,13
+2021-22,MUN,FC Bayern Munich,Bayern Munich,8,14,14
+2021-22,BAS,Bitci Baskonia Vitoria-Gasteiz,Baskonia,9,12,16
+2021-22,BER,ALBA Berlin,Alba Berlin,10,12,16
+2021-22,RED,Crvena Zvezda mts Belgrade,Crvena Zvezda,11,12,16
+2021-22,ULK,Fenerbahce Beko Istanbul,Fenerbahce,12,10,18
+2021-22,PAN,Panathinaikos OPAP Athens,Panathinaikos,13,9,19
+2021-22,ASV,LDLC ASVEL Villeurbanne,ASVEL,14,8,20
+2021-22,ZAL,Zalgiris Kaunas,Zalgiris Kaunas,15,8,20
+2022-23,OLY,Olympiacos Piraeus,Olympiacos Piraeus,1,24,10
+2022-23,BAR,FC Barcelona,FC Barcelona,2,23,11
+2022-23,MAD,Real Madrid,Real Madrid,3,23,11
+2022-23,MCO,AS Monaco,AS Monaco,4,21,13
+2022-23,TEL,Maccabi Playtika Tel Aviv,Maccabi Tel Aviv,5,20,14
+2022-23,PAR,Partizan Mozzart Bet Belgrade,Partizan Belgrade,6,20,14
+2022-23,ZAL,Zalgiris Kaunas,Zalgiris Kaunas,7,19,15
+2022-23,ULK,Fenerbahce Beko Istanbul,Fenerbahce,8,19,15
+2022-23,BAS,Cazoo Baskonia Vitoria-Gasteiz,Baskonia,9,18,16
+2022-23,RED,Crvena Zvezda Meridianbet Belgrade,Crvena Zvezda,10,17,17
+2022-23,IST,Anadolu Efes Istanbul,Anadolu Efes,11,17,17
+2022-23,MIL,EA7 Emporio Armani Milan,Olimpia Milano,12,15,19
+2022-23,PAM,Valencia Basket,Valencia Basket,13,15,19
+2022-23,VIR,Virtus Segafredo Bologna,Virtus Bologna,14,14,20
+2022-23,MUN,FC Bayern Munich,Bayern Munich,15,11,23
+2022-23,BER,ALBA Berlin,Alba Berlin,16,11,23
+2022-23,PAN,Panathinaikos Athens,Panathinaikos,17,9,23
+2022-23,ASV,LDLC ASVEL Villeurbanne,ASVEL,18,8,26
+2023-24,MAD,Real Madrid,Real Madrid,1,27,7
+2023-24,PAN,Panathinaikos AKTOR Athens,Panathinaikos,2,23,11
+2023-24,MCO,AS Monaco,AS Monaco,3,23,11
+2023-24,BAR,FC Barcelona,FC Barcelona,4,22,12
+2023-24,OLY,Olympiacos Piraeus,Olympiacos Piraeus,5,22,12
+2023-24,ULK,Fenerbahce Beko Istanbul,Fenerbahce,6,20,14
+2023-24,TEL,Maccabi Playtika Tel Aviv,Maccabi Tel Aviv,7,20,14
+2023-24,BAS,Baskonia Vitoria-Gasteiz,Baskonia,8,18,16
+2023-24,IST,Anadolu Efes Istanbul,Anadolu Efes,9,17,17
+2023-24,VIR,Virtus Segafredo Bologna,Virtus Bologna,10,17,17
+2023-24,PAR,Partizan Mozzart Bet Belgrade,Partizan Belgrade,11,16,18
+2023-24,MIL,EA7 Emporio Armani Milan,Olimpia Milano,12,15,19
+2023-24,PAM,Valencia Basket,Valencia Basket,13,14,20
+2023-24,ZAL,Zalgiris Kaunas,Zalgiris Kaunas,14,14,20
+2023-24,MUN,FC Bayern Munich,Bayern Munich,15,13,21
+2023-24,RED,Crvena Zvezda Meridianbet Belgrade,Crvena Zvezda,16,11,23
+2023-24,ASV,LDLC ASVEL Villeurbanne,ASVEL,17,9,25
+2023-24,BER,ALBA Berlin,Alba Berlin,18,5,29
+2024-25,OLY,Olympiacos Piraeus,Olympiacos Piraeus,1,24,10
+2024-25,ULK,Fenerbahce Beko Istanbul,Fenerbahce,2,23,11
+2024-25,PAN,Panathinaikos AKTOR Athens,Panathinaikos,3,22,12
+2024-25,MCO,AS Monaco,AS Monaco,4,21,13
+2024-25,BAR,FC Barcelona,FC Barcelona,5,20,14
+2024-25,IST,Anadolu Efes Istanbul,Anadolu Efes,6,20,14
+2024-25,MAD,Real Madrid,Real Madrid,7,20,14
+2024-25,PRS,Paris Basketball,Paris Basketball,8,19,15
+2024-25,MUN,FC Bayern Munich,Bayern Munich,9,19,15
+2024-25,RED,Crvena Zvezda Meridianbet Belgrade,Crvena Zvezda,10,18,16
+2024-25,MIL,EA7 Emporio Armani Milan,Olimpia Milano,11,17,17
+2024-25,PAR,Partizan Mozzart Bet Belgrade,Partizan Belgrade,12,16,18
+2024-25,ZAL,Zalgiris Kaunas,Zalgiris Kaunas,13,15,19
+2024-25,BAS,Baskonia Vitoria-Gasteiz,Baskonia,14,14,20
+2024-25,ASV,LDLC ASVEL Villeurbanne,ASVEL,15,13,21
+2024-25,TEL,Maccabi Playtika Tel Aviv,Maccabi Tel Aviv,16,11,23
+2024-25,VIR,Virtus Segafredo Bologna,Virtus Bologna,17,9,25
+2024-25,BER,ALBA Berlin,Alba Berlin,18,5,29
+2025-26,OLY,Olympiacos Piraeus,Olympiacos Piraeus,1,26,12
+2025-26,PAM,Valencia Basket,Valencia Basket,2,25,13
+2025-26,MAD,Real Madrid,Real Madrid,3,24,14
+2025-26,ULK,Fenerbahce Beko Istanbul,Fenerbahce,4,24,14
+2025-26,ZAL,Zalgiris Kaunas,Zalgiris Kaunas,5,23,15
+2025-26,HTA,Hapoel IBI Tel Aviv,Hapoel Tel Aviv,6,23,15
+2025-26,PAN,Panathinaikos AKTOR Athens,Panathinaikos,7,22,16
+2025-26,MCO,AS Monaco,AS Monaco,8,22,16
+2025-26,BAR,FC Barcelona,FC Barcelona,9,21,17
+2025-26,RED,Crvena Zvezda Meridianbet Belgrade,Crvena Zvezda,10,21,17
+2025-26,DUB,Dubai Basketball,Dubai Basketball,11,19,19
+2025-26,TEL,Maccabi Rapyd Tel Aviv,Maccabi Tel Aviv,12,18,20
+2025-26,MUN,FC Bayern Munich,Bayern Munich,13,17,21
+2025-26,MIL,EA7 Emporio Armani Milan,Olimpia Milano,14,17,21
+2025-26,PAR,Partizan Mozzart Bet Belgrade,Partizan Belgrade,15,16,22
+2025-26,PRS,Paris Basketball,Paris Basketball,16,15,23
+2025-26,VIR,Virtus Bologna,Virtus Bologna,17,14,24
+2025-26,BAS,Kosner Baskonia Vitoria-Gasteiz,Baskonia,18,13,25
+2025-26,IST,Anadolu Efes Istanbul,Anadolu Efes,19,12,26
+2025-26,ASV,LDLC ASVEL Villeurbanne,ASVEL,20,8,30

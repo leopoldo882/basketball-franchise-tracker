@@ -1,0 +1,13 @@
+# local virtualenvs
+venv/
+.venv/
+
+# python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# cached raw HTML/XML from sources — copyrighted content, local only, never pushed
+data/raw/

@@ -1,0 +1,7 @@
+season,entity,entity_type,value_eur_m_low,value_eur_m_high,basis,source_url
+2025-26,EuroLeague (league entity),league,1410,1410,JB Capital report; EBITDA multiple,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
+2026-27,EuroLeague (league entity),league,1640,1640,same multiple applied to estimated 2026-27 EBITDA,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
+2025-26,All licensed clubs (aggregate),clubs_aggregate,1800,1800,revenue-based multiples; reported as approximately EUR 1.8B,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
+2025-26,League + clubs combined,combined,3200,3200,combined enterprise value; reported as over EUR 3.2B,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
+2026-27,League + clubs combined (scenario),combined,4300,4300,scenario: franchise-model transition executes; same multiples,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
+2025-26,Individual clubs (range),club_range,60,320,revenue-based multiples; reported as over EUR 60M to more than EUR 320M,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
