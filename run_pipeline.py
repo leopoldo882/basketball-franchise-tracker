@@ -1,5 +1,6 @@
-"""Refresh every dataset end to end: run all collectors, then validate the
-manual-entry CSVs and the team-name mapping coverage.
+"""Refresh every dataset end to end: run all collectors, validate the
+manual-entry CSVs and the team-name mapping coverage, then rebuild the
+analysis outputs.
 
 Usage: python run_pipeline.py
 """
@@ -8,7 +9,9 @@ import sys
 
 import pandas as pd
 
-from collectors import basketnews_budgets, common, euroleague_standings, forbes_wayback, market_data
+from collectors import (basketnews_budgets, common, euroleague_standings, forbes_wayback,
+                        fx_rates, market_data, us_cpi)
+from analysis import budget_vs_performance, listed_index, multiples_cross_league, nba_growth
 
 MANUAL_DIR = common.DATA_DIR / "manual"
 
@@ -116,6 +119,8 @@ def main():
     basketnews_budgets.run()
     forbes_wayback.run()
     market_data.run()
+    fx_rates.run()
+    us_cpi.run()
 
     errors = validate_manual_files()
     validate_mapping_coverage()
@@ -123,6 +128,13 @@ def main():
     if errors:
         print(f"\nFAILED: {errors} schema error(s) in manual files")
         sys.exit(1)
+
+    print("\n== analysis ==")
+    listed_index.run()
+    nba_growth.run()
+    budget_vs_performance.run()
+    multiples_cross_league.run()
+
     print("\nPipeline complete.")
 
 

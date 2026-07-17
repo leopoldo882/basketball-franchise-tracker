@@ -1,0 +1,94 @@
+season,figure_type,canonical_name,amount_mid_eur_m,budget_rank,rs_rank,wins,losses
+2021-22,payroll_gross,Real Madrid,35.0,2.0,4,18,10
+2021-22,payroll_gross,FC Barcelona,36.1,1.0,1,21,7
+2021-22,payroll_gross,Olimpia Milano,19.0,3.0,3,19,9
+2021-22,payroll_gross,Bayern Munich,10.0,5.0,8,14,14
+2021-22,payroll_gross,Maccabi Tel Aviv,10.6,4.0,5,17,11
+2021-22,payroll_gross,ASVEL,7.5,6.0,14,8,20
+2021-22,payroll_gross,Alba Berlin,5.5,9.0,10,12,16
+2021-22,payroll_gross,Zalgiris Kaunas,7.2,7.0,15,8,20
+2021-22,payroll_gross,Crvena Zvezda,6.0,8.0,11,12,16
+2021-22,payroll_net,Real Madrid,19.2,1.0,4,18,10
+2021-22,payroll_net,FC Barcelona,18.8,2.0,1,21,7
+2021-22,payroll_net,Olimpia Milano,11.0,5.0,3,19,9
+2021-22,payroll_net,Anadolu Efes,15.0,3.0,6,16,12
+2021-22,payroll_net,Fenerbahce,13.5,4.0,12,10,18
+2021-22,payroll_net,Bayern Munich,5.3,10.0,8,14,14
+2021-22,payroll_net,Maccabi Tel Aviv,7.0,7.0,5,17,11
+2021-22,payroll_net,ASVEL,4.0,13.0,14,8,20
+2021-22,payroll_net,Olympiacos Piraeus,8.5,6.0,2,19,9
+2021-22,payroll_net,AS Monaco,5.8,8.0,7,15,13
+2021-22,payroll_net,Alba Berlin,3.0,14.0,10,12,16
+2021-22,payroll_net,Zalgiris Kaunas,4.3,12.0,15,8,20
+2021-22,payroll_net,Panathinaikos,5.5,9.0,13,9,19
+2021-22,payroll_net,Crvena Zvezda,5.2,11.0,11,12,16
+2021-22,total_budget_gross,Real Madrid,44.0,1.0,4,18,10
+2021-22,total_budget_gross,FC Barcelona,43.5,2.0,1,21,7
+2021-22,total_budget_gross,Olimpia Milano,30.0,3.0,3,19,9
+2021-22,total_budget_gross,Anadolu Efes,25.0,4.0,6,16,12
+2021-22,total_budget_gross,Fenerbahce,24.0,5.0,12,10,18
+2021-22,total_budget_gross,Bayern Munich,21.0,6.0,8,14,14
+2021-22,total_budget_gross,Maccabi Tel Aviv,18.0,7.0,5,17,11
+2021-22,total_budget_gross,ASVEL,15.1,8.0,14,8,20
+2021-22,total_budget_gross,Olympiacos Piraeus,15.0,9.0,2,19,9
+2021-22,total_budget_gross,AS Monaco,14.7,10.0,7,15,13
+2021-22,total_budget_gross,Alba Berlin,11.0,11.0,10,12,16
+2021-22,total_budget_gross,Zalgiris Kaunas,10.0,12.0,15,8,20
+2021-22,total_budget_gross,Panathinaikos,9.5,13.0,13,9,19
+2021-22,total_budget_gross,Crvena Zvezda,8.4,14.0,11,12,16
+2024-25,payroll_net,Real Madrid,20.5,2.0,7,20,14
+2024-25,payroll_net,Panathinaikos,20.5,2.0,3,22,12
+2024-25,payroll_net,Olympiacos Piraeus,20.5,2.0,1,24,10
+2024-25,payroll_net,Anadolu Efes,17.2,4.0,6,20,14
+2024-25,payroll_net,Fenerbahce,16.5,5.0,2,23,11
+2024-25,payroll_net,FC Barcelona,15.5,6.0,5,20,14
+2024-25,payroll_net,Olimpia Milano,14.5,7.0,11,17,17
+2024-25,payroll_net,Crvena Zvezda,14.4,8.0,10,18,16
+2024-25,payroll_net,AS Monaco,13.5,9.0,4,21,13
+2024-25,payroll_net,Partizan Belgrade,13.2,10.0,12,16,18
+2024-25,payroll_net,Virtus Bologna,10.0,11.0,17,9,25
+2024-25,payroll_net,Bayern Munich,8.0,12.5,9,19,15
+2024-25,payroll_net,Baskonia,8.0,12.5,14,14,20
+2024-25,payroll_net,Zalgiris Kaunas,7.5,14.0,13,15,19
+2024-25,payroll_net,Maccabi Tel Aviv,6.5,15.0,16,11,23
+2024-25,payroll_net,ASVEL,5.8,16.0,15,13,21
+2024-25,payroll_net,Paris Basketball,5.6,17.0,8,19,15
+2024-25,payroll_net,Alba Berlin,4.1,18.0,18,5,29
+2024-25,total_budget_gross,Real Madrid,45.0,1.0,7,20,14
+2024-25,total_budget_gross,Panathinaikos,37.0,3.5,3,22,12
+2024-25,total_budget_gross,Olympiacos Piraeus,37.0,3.5,1,24,10
+2024-25,total_budget_gross,Anadolu Efes,34.5,5.0,6,20,14
+2024-25,total_budget_gross,Fenerbahce,33.5,6.0,2,23,11
+2024-25,total_budget_gross,FC Barcelona,32.0,8.0,5,20,14
+2024-25,total_budget_gross,Olimpia Milano,39.0,2.0,11,17,17
+2024-25,total_budget_gross,Crvena Zvezda,22.0,12.0,10,18,16
+2024-25,total_budget_gross,AS Monaco,29.4,9.0,4,21,13
+2024-25,total_budget_gross,Partizan Belgrade,23.0,11.0,12,16,18
+2024-25,total_budget_gross,Virtus Bologna,25.0,10.0,17,9,25
+2024-25,total_budget_gross,Bayern Munich,33.0,7.0,9,19,15
+2024-25,total_budget_gross,Baskonia,14.0,18.0,14,14,20
+2024-25,total_budget_gross,Zalgiris Kaunas,17.7,15.0,13,15,19
+2024-25,total_budget_gross,Maccabi Tel Aviv,19.0,13.0,16,11,23
+2024-25,total_budget_gross,ASVEL,16.2,16.0,15,13,21
+2024-25,total_budget_gross,Paris Basketball,18.9,14.0,8,19,15
+2024-25,total_budget_gross,Alba Berlin,14.6,17.0,18,5,29
+2025-26,payroll_net,Panathinaikos,26.75,1.0,7,22,16
+2025-26,payroll_net,Olympiacos Piraeus,22.25,2.0,1,26,12
+2025-26,payroll_net,Hapoel Tel Aviv,19.75,3.0,6,23,15
+2025-26,payroll_net,Real Madrid,18.75,4.0,3,24,14
+2025-26,payroll_net,Anadolu Efes,18.25,5.5,19,12,26
+2025-26,payroll_net,Dubai Basketball,18.25,5.5,11,19,19
+2025-26,payroll_net,Fenerbahce,16.25,7.5,4,24,14
+2025-26,payroll_net,Crvena Zvezda,16.25,7.5,10,21,17
+2025-26,payroll_net,Partizan Belgrade,14.5,9.5,15,16,22
+2025-26,payroll_net,FC Barcelona,14.5,9.5,9,21,17
+2025-26,payroll_net,AS Monaco,13.75,11.5,8,22,16
+2025-26,payroll_net,Olimpia Milano,13.75,11.5,14,17,21
+2025-26,payroll_net,Valencia Basket,9.5,13.0,2,25,13
+2025-26,payroll_net,Maccabi Tel Aviv,9.25,14.0,12,18,20
+2025-26,payroll_net,Bayern Munich,9.0,15.0,13,17,21
+2025-26,payroll_net,Zalgiris Kaunas,8.75,16.0,5,23,15
+2025-26,payroll_net,Baskonia,8.25,17.0,18,13,25
+2025-26,payroll_net,Paris Basketball,8.0,18.0,16,15,23
+2025-26,payroll_net,Virtus Bologna,7.75,19.0,17,14,24
+2025-26,payroll_net,ASVEL,4.75,20.0,20,8,30

@@ -1,0 +1,7 @@
+season,figure_type,budget_rows,standings_rows,joined,dropped_budget_rows,standings_clubs_without_this_figure
+2021-22,payroll_gross,11,15,9,CSKA Moscow: not in 2021-22 standings (source gap); Zenit St Petersburg: not in 2021-22 standings (source gap),AS Monaco; Anadolu Efes; Baskonia; Fenerbahce; Olympiacos Piraeus; Panathinaikos
+2021-22,payroll_net,17,15,14,CSKA Moscow: not in 2021-22 standings (source gap); UNICS Kazan: not in 2021-22 standings (source gap); Zenit St Petersburg: not in 2021-22 standings (source gap),Baskonia
+2021-22,total_budget_gross,17,15,14,CSKA Moscow: not in 2021-22 standings (source gap); UNICS Kazan: not in 2021-22 standings (source gap); Zenit St Petersburg: not in 2021-22 standings (source gap),Baskonia
+2024-25,payroll_net,18,18,18,,
+2024-25,total_budget_gross,18,18,18,,
+2025-26,payroll_net,20,20,20,,

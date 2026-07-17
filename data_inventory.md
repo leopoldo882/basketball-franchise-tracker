@@ -205,7 +205,14 @@ reading was a stale-ticker artifact. Lyon is IN the football index.
   alternative). MSGS + US holdcos (BATRA/TKO/MSGE) form a separate labeled
   comparator line, never blended into the headline index. Delisted names dropped.
 - **Scrapable: YES** — yfinance, monthly refresh in GitHub Actions. Currency
-  handling (GBp/GBP, DKK, EUR, USD) is a Phase 2 methodology decision.
+  handling: everything converted to EUR (Phase 2 ruling; see methodology.md).
+- **Phase 2 additions to the same collector family:**
+  - FX rates via yfinance (`EURUSD=X` since 2003-12, `EURGBP=X` since 1999,
+    `EURDKK=X` since 2003-12; verified live 2026-07-17) → data/fx_rates.csv.
+  - US CPI (CPIAUCSL) via FRED's open CSV endpoint
+    `https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL` (no key,
+    1947→present; verified live 2026-07-17) → data/us_cpi.csv. Feeds the single
+    real-terms CAGR in the facts sheet.
 
 ---
 

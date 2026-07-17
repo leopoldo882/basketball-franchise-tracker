@@ -1,0 +1,7 @@
+season,figure_type,n_clubs,spearman_rho
+2021-22,payroll_gross,9,0.828
+2021-22,payroll_net,14,0.7046
+2021-22,total_budget_gross,14,0.6451
+2024-25,payroll_net,18,0.7677
+2024-25,total_budget_gross,18,0.6908
+2025-26,payroll_net,20,0.5587
