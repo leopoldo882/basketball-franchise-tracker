@@ -1,8 +1,13 @@
 """Refresh every dataset end to end: run all collectors, validate the
-manual-entry CSVs and the team-name mapping coverage, then rebuild the
-analysis outputs.
+manual-entry CSVs and the team-name mapping coverage, rebuild the analysis
+outputs, then rebuild the dashboard.
 
-Usage: python run_pipeline.py
+Usage:
+  python run_pipeline.py                full refresh (scraped + market sources)
+  python run_pipeline.py --market-only  market/FX/CPI refresh only — used by the
+                                        monthly GitHub Actions run, which must
+                                        not scrape (no data/raw cache in CI, and
+                                        annual sources don't change monthly)
 """
 
 import sys
@@ -12,6 +17,7 @@ import pandas as pd
 from collectors import (basketnews_budgets, common, euroleague_standings, forbes_wayback,
                         fx_rates, market_data, us_cpi)
 from analysis import budget_vs_performance, listed_index, multiples_cross_league, nba_growth
+from dashboard import build as dashboard_build
 
 MANUAL_DIR = common.DATA_DIR / "manual"
 
@@ -114,10 +120,13 @@ def validate_mapping_coverage():
 
 
 def main():
+    market_only = "--market-only" in sys.argv
+
     print("== collectors ==")
-    euroleague_standings.run()
-    basketnews_budgets.run()
-    forbes_wayback.run()
+    if not market_only:
+        euroleague_standings.run()
+        basketnews_budgets.run()
+        forbes_wayback.run()
     market_data.run()
     fx_rates.run()
     us_cpi.run()
@@ -134,6 +143,9 @@ def main():
     nba_growth.run()
     budget_vs_performance.run()
     multiples_cross_league.run()
+
+    print("\n== dashboard ==")
+    dashboard_build.run()
 
     print("\nPipeline complete.")
 
