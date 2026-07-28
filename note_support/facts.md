@@ -1,12 +1,12 @@
 # Facts sheet — computed numbers with sources
 
-Generated 2026-07-17 22:18 UTC by `python run_pipeline.py --notepack`. Every number
+Generated 2026-07-28 23:53 UTC by `python run_pipeline.py --notepack`. Every number
 regenerates from the pipeline CSVs; nothing here is editorial.
 
 ## Headline numbers
 
 - **12.9%** — NBA avg franchise value CAGR, 2016→2022 editions (S&P 500 total return over the same window: 18.8%)
-- **13.2%** — Listed European football clubs CAGR (EUR, fixed 12 members) (2012-09 → 2026-07)
+- **13.1%** — Listed European football clubs CAGR (EUR, fixed 12 members) (2012-09 → 2026-07)
 - **6.3× → 9.5×** — NBA median value/revenue multiple (2016 edition vs 2022 edition)
 - **0.56–0.83** — EuroLeague budget rank ↔ standings (Spearman) (across seasons and figure definitions)
 - **€1.41B** — EuroLeague league-entity valuation 2025-26 (JB Capital, via official press release)
@@ -15,35 +15,35 @@ regenerates from the pipeline CSVs; nothing here is editorial.
 
 | series | metric | value | window | months | note |
 |---|---|---|---|---|---|
-| eu_football | cumulative_return | 1.8425 | 2004-02 → 2026-07 | 270 |  |
-| eu_football | cagr | 0.0475 | 2004-02 → 2026-07 | 270 |  |
+| eu_football | cumulative_return | 1.8147 | 2004-02 → 2026-07 | 270 |  |
+| eu_football | cagr | 0.0471 | 2004-02 → 2026-07 | 270 |  |
 | eu_football | max_drawdown | -0.6352 | 2004-02 → 2026-07 | 270 |  |
-| eu_football_fixed12 | cumulative_return | 4.586 | 2012-09 → 2026-07 | 167 |  |
-| eu_football_fixed12 | cagr | 0.1316 | 2012-09 → 2026-07 | 167 |  |
+| eu_football_fixed12 | cumulative_return | 4.5314 | 2012-09 → 2026-07 | 167 |  |
+| eu_football_fixed12 | cagr | 0.1308 | 2012-09 → 2026-07 | 167 |  |
 | eu_football_fixed12 | max_drawdown | -0.2986 | 2012-09 → 2026-07 | 167 |  |
-| us_holdco | cumulative_return | 3.9808 | 2015-10 → 2026-07 | 130 |  |
-| us_holdco | cagr | 0.1598 | 2015-10 → 2026-07 | 130 |  |
+| us_holdco | cumulative_return | 4.0088 | 2015-10 → 2026-07 | 130 |  |
+| us_holdco | cagr | 0.1604 | 2015-10 → 2026-07 | 130 |  |
 | us_holdco | max_drawdown | -0.3606 | 2015-10 → 2026-07 | 130 |  |
-| sp500tr_eur | cumulative_return | 9.999 | 2004-02 → 2026-07 | 270 |  |
+| sp500tr_eur | cumulative_return | 10.0123 | 2004-02 → 2026-07 | 270 |  |
 | sp500tr_eur | cagr | 0.1125 | 2004-02 → 2026-07 | 270 |  |
 | sp500tr_eur | max_drawdown | -0.4694 | 2004-02 → 2026-07 | 270 |  |
-| ieur_eur | cumulative_return | 1.5797 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
-| ieur_eur | cagr | 0.0816 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
+| ieur_eur | cumulative_return | 1.6052 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
+| ieur_eur | cagr | 0.0825 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
 | ieur_eur | max_drawdown | -0.2449 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
-| stoxx_eur | cumulative_return | 1.6929 | 2004-05 → 2026-07 | 267 | price-only index, not total return |
-| stoxx_eur | cagr | 0.0455 | 2004-05 → 2026-07 | 267 | price-only index, not total return |
+| stoxx_eur | cumulative_return | 1.6966 | 2004-05 → 2026-07 | 267 | price-only index, not total return |
+| stoxx_eur | cagr | 0.0456 | 2004-05 → 2026-07 | 267 | price-only index, not total return |
 | stoxx_eur | max_drawdown | -0.5641 | 2004-05 → 2026-07 | 267 | price-only index, not total return |
-| eu_football_common_window | cumulative_return | 4.586 | 2012-09 → 2026-07 | 167 | staggered composition over the fixed-12 window (window vs composition split) |
-| eu_football_common_window | cagr | 0.1316 | 2012-09 → 2026-07 | 167 | staggered composition over the fixed-12 window (window vs composition split) |
+| eu_football_common_window | cumulative_return | 4.5314 | 2012-09 → 2026-07 | 167 | staggered composition over the fixed-12 window (window vs composition split) |
+| eu_football_common_window | cagr | 0.1308 | 2012-09 → 2026-07 | 167 | staggered composition over the fixed-12 window (window vs composition split) |
 | eu_football_common_window | max_drawdown | -0.2986 | 2012-09 → 2026-07 | 167 | staggered composition over the fixed-12 window (window vs composition split) |
-| eu_football | correlation_vs_sp500tr_eur | 0.4408 | 2004-02 → 2026-07 | 270 |  |
-| eu_football | correlation_vs_ieur_eur | 0.5871 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
-| eu_football | correlation_vs_stoxx_eur | 0.5615 | 2004-05 → 2026-07 | 267 | price-only index, not total return |
-| eu_football_fixed12 | correlation_vs_sp500tr_eur | 0.4651 | 2012-09 → 2026-07 | 167 |  |
-| eu_football_fixed12 | correlation_vs_ieur_eur | 0.5871 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
-| eu_football_fixed12 | correlation_vs_stoxx_eur | 0.5444 | 2012-09 → 2026-07 | 167 | price-only index, not total return |
-| us_holdco | correlation_vs_sp500tr_eur | 0.582 | 2015-10 → 2026-07 | 130 |  |
-| us_holdco | correlation_vs_ieur_eur | 0.5481 | 2015-10 → 2026-07 | 130 | investable ETF TR proxy, exists 2014+ |
+| eu_football | correlation_vs_sp500tr_eur | 0.4411 | 2004-02 → 2026-07 | 270 |  |
+| eu_football | correlation_vs_ieur_eur | 0.587 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
+| eu_football | correlation_vs_stoxx_eur | 0.5614 | 2004-05 → 2026-07 | 267 | price-only index, not total return |
+| eu_football_fixed12 | correlation_vs_sp500tr_eur | 0.4656 | 2012-09 → 2026-07 | 167 |  |
+| eu_football_fixed12 | correlation_vs_ieur_eur | 0.587 | 2014-07 → 2026-07 | 145 | investable ETF TR proxy, exists 2014+ |
+| eu_football_fixed12 | correlation_vs_stoxx_eur | 0.5442 | 2012-09 → 2026-07 | 167 | price-only index, not total return |
+| us_holdco | correlation_vs_sp500tr_eur | 0.5819 | 2015-10 → 2026-07 | 130 |  |
+| us_holdco | correlation_vs_ieur_eur | 0.5469 | 2015-10 → 2026-07 | 130 | investable ETF TR proxy, exists 2014+ |
 | us_holdco | correlation_vs_stoxx_eur | 0.5509 | 2015-10 → 2026-07 | 130 | price-only index, not total return |
 
 Source: Yahoo Finance adjusted closes via yfinance; EUR conversion via yfinance FX pairs; construction rules in methodology.md.

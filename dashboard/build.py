@@ -10,10 +10,17 @@ import datetime
 
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.io as pio
 from plotly.offline import get_plotlyjs_version
 from plotly.subplots import make_subplots
 
 from collectors import common
+
+# Always serialize chart JSON with the standard-library encoder. Plotly switches
+# to orjson automatically when it is installed (the local-only kaleido pulls it
+# in), and the two encoders escape non-ASCII characters differently, so the same
+# data would otherwise produce different bytes locally and in CI.
+pio.json.config.default_engine = "json"
 
 OUT_DIR = common.PROJECT_ROOT / "docs"
 AOUT = common.PROJECT_ROOT / "analysis" / "output"
@@ -59,8 +66,12 @@ def render(fig, div_id):
 
 
 def load_monthly():
+    # dates are kept as ISO strings, not timestamps: plotly hands timestamps to
+    # whichever JSON encoder is installed, and orjson (pulled in by the local-only
+    # kaleido) writes them differently from the standard encoder used in CI, which
+    # would make the two environments rewrite docs/index.html on every run
     m = pd.read_csv(AOUT / "listed_index_monthly.csv")
-    m["date"] = pd.PeriodIndex(m["date"], freq="M").to_timestamp()
+    m["date"] = pd.PeriodIndex(m["date"], freq="M").to_timestamp().strftime("%Y-%m-%d")
     return m
 
 
@@ -80,9 +91,10 @@ def chart_common_window(monthly):
     for name, line in styles.items():
         s = monthly[(monthly.series == name) & (monthly.date >= "2012-09-01")].set_index("date").level_eur
         label = SERIES_LABELS[name]
-        if s.index[0] > pd.Timestamp("2012-10-01"):
-            label += f" (from {s.index[0]:%Y-%m})"
+        if s.index[0] > "2012-10-01":
+            label += f" (from {s.index[0][:7]})"
         fig.add_trace(go.Scatter(x=s.index, y=rebase(s).round(1), name=label, line=line))
+    fig.update_xaxes(type="date")
     fig.update_yaxes(title_text="Index level (EUR, 100 = start)")
     return style(fig)
 
@@ -102,6 +114,7 @@ def chart_full_window(monthly):
         fig.add_trace(go.Scatter(x=s.index, y=rebase(s).round(1), name=SERIES_LABELS[name], line=line), row=1, col=1)
     fig.add_trace(go.Scatter(x=eu.index, y=eu.n_members, name="index members (count)",
                              line=dict(color=MUTED, width=1.5, shape="hv"), showlegend=True), row=2, col=1)
+    fig.update_xaxes(type="date")
     fig.update_yaxes(title_text="Index level (EUR, 100 = 2004)", row=1, col=1)
     fig.update_yaxes(title_text="members", range=[8, 13], row=2, col=1)
     return style(fig, height=520)
@@ -115,6 +128,7 @@ def chart_drawdown(monthly):
         dd = (level / level.cummax() - 1) * 100
         fig.add_trace(go.Scatter(x=dd.index, y=dd.round(1), name=SERIES_LABELS[name],
                                  line=dict(color=color, width=2)))
+    fig.update_xaxes(type="date")
     fig.update_yaxes(title_text="Drawdown from peak (%)")
     return style(fig, height=340)
 
