@@ -18,6 +18,8 @@ Actions. No databases, no frameworks.
 pip install -r requirements.txt
 python run_pipeline.py                # full refresh
 python run_pipeline.py --market-only  # what the monthly CI run does
+python run_pipeline.py --notepack     # + /note_support chart PNGs & facts.md
+                                      #   (local only; pip install -r requirements-notepack.txt)
 ```
 
 ## What's inside

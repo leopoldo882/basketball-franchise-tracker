@@ -8,6 +8,9 @@ Usage:
                                         monthly GitHub Actions run, which must
                                         not scrape (no data/raw cache in CI, and
                                         annual sources don't change monthly)
+  python run_pipeline.py --notepack     additionally build /note_support (chart
+                                        PNGs + facts.md); local only, needs
+                                        pip install -r requirements-notepack.txt
 """
 
 import sys
@@ -146,6 +149,12 @@ def main():
 
     print("\n== dashboard ==")
     dashboard_build.run()
+
+    if "--notepack" in sys.argv:
+        # imported here so default and --market-only runs never need kaleido
+        from note_support import build_notepack
+        print("\n== note support ==")
+        build_notepack.run()
 
     print("\nPipeline complete.")
 

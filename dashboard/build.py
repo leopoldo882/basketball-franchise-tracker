@@ -10,6 +10,7 @@ import datetime
 
 import pandas as pd
 import plotly.graph_objects as go
+from plotly.offline import get_plotlyjs_version
 from plotly.subplots import make_subplots
 
 from collectors import common
@@ -39,7 +40,7 @@ SERIES_LABELS = {
 }
 
 
-def style(fig, div_id, height=440, margin_top=30):
+def style(fig, height=440, margin_top=30):
     fig.update_layout(
         template="plotly_white", paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
         font=dict(family='system-ui, -apple-system, "Segoe UI", sans-serif', color=INK_2, size=13),
@@ -49,6 +50,11 @@ def style(fig, div_id, height=440, margin_top=30):
     )
     fig.update_xaxes(gridcolor=GRID, linecolor=GRID, zeroline=False)
     fig.update_yaxes(gridcolor=GRID, linecolor=GRID, zeroline=False)
+    return fig
+
+
+def render(fig, div_id):
+    """Figure -> embeddable HTML div with a stable id (deterministic builds)."""
     return fig.to_html(full_html=False, include_plotlyjs=False, config=CONFIG, div_id=div_id)
 
 
@@ -78,7 +84,7 @@ def chart_common_window(monthly):
             label += f" (from {s.index[0]:%Y-%m})"
         fig.add_trace(go.Scatter(x=s.index, y=rebase(s).round(1), name=label, line=line))
     fig.update_yaxes(title_text="Index level (EUR, 100 = start)")
-    return style(fig, "chart-common-window")
+    return style(fig)
 
 
 def chart_full_window(monthly):
@@ -98,7 +104,7 @@ def chart_full_window(monthly):
                              line=dict(color=MUTED, width=1.5, shape="hv"), showlegend=True), row=2, col=1)
     fig.update_yaxes(title_text="Index level (EUR, 100 = 2004)", row=1, col=1)
     fig.update_yaxes(title_text="members", range=[8, 13], row=2, col=1)
-    return style(fig, "chart-full-window", height=520)
+    return style(fig, height=520)
 
 
 def chart_drawdown(monthly):
@@ -110,7 +116,7 @@ def chart_drawdown(monthly):
         fig.add_trace(go.Scatter(x=dd.index, y=dd.round(1), name=SERIES_LABELS[name],
                                  line=dict(color=color, width=2)))
     fig.update_yaxes(title_text="Drawdown from peak (%)")
-    return style(fig, "chart-drawdown", height=340)
+    return style(fig, height=340)
 
 
 def chart_nba_values(growth):
@@ -120,7 +126,7 @@ def chart_nba_values(growth):
                            text=[f"${v:,.0f}M" for v in per_year.value], textposition="outside"))
     fig.update_yaxes(title_text="Average franchise value ($M)")
     fig.update_layout(showlegend=False)
-    return style(fig, "chart-nba-values", height=360)
+    return style(fig, height=360)
 
 
 def chart_nba_cagr(growth):
@@ -133,7 +139,7 @@ def chart_nba_cagr(growth):
     ])
     fig.update_yaxes(title_text="CAGR (%)")
     fig.update_layout(barmode="group")
-    return style(fig, "chart-nba-cagr", height=360)
+    return style(fig, height=360)
 
 
 def chart_nba_dispersion(growth):
@@ -149,7 +155,7 @@ def chart_nba_dispersion(growth):
                    text=mult.value.round(2), textposition="top center"),
     ])
     fig.update_yaxes(title_text="Multiple (×)", rangemode="tozero")
-    return style(fig, "chart-nba-dispersion", height=360)
+    return style(fig, height=360)
 
 
 def chart_budget_vs_rank():
@@ -172,7 +178,7 @@ def chart_budget_vs_rank():
         fig.update_xaxes(title_text="budget rank (1 = biggest)", row=1, col=i)
     fig.update_yaxes(title_text="regular-season rank (1 = best)", row=1, col=1)
     fig.update_layout(hovermode="closest")
-    return style(fig, "chart-budget-vs-rank", height=400, margin_top=70)
+    return style(fig, height=400, margin_top=70)
 
 
 def chart_budgets_latest():
@@ -188,7 +194,7 @@ def chart_budgets_latest():
         hovertemplate="%{y}: €%{x}M<extra></extra>"))
     fig.update_xaxes(title_text="Net player payroll 2025-26 (€M, BasketNews estimate range)")
     fig.update_layout(showlegend=False)
-    return style(fig, "chart-payrolls-2025-26", height=520)
+    return style(fig, height=520)
 
 
 def chart_budgets_growth():
@@ -204,7 +210,7 @@ def chart_budgets_growth():
     ])
     fig.update_xaxes(title_text="Total budget, gross (€M)")
     fig.update_layout(barmode="group", height=560)
-    return style(fig, "chart-budgets-growth", height=560)
+    return style(fig, height=560)
 
 
 def chart_jb_capital():
@@ -220,7 +226,7 @@ def chart_jb_capital():
     fig.update_xaxes(title_text="Valuation (€M) — JB Capital via EuroLeague press release, Mar 2026",
                      range=[0, keep.value_eur_m_low.max() * 1.15])
     fig.update_layout(showlegend=False)
-    return style(fig, "chart-jb-capital", height=340)
+    return style(fig, height=340)
 
 
 def headline_stats(growth, stats, corr):
@@ -280,9 +286,52 @@ SOURCES = """
 """
 
 
+def build_figures():
+    """The chart registry: (div_id, title, note, figure) for every chart —
+    the single source of truth shared by the dashboard (HTML) and the
+    note-support pack (PNG export)."""
+    monthly = load_monthly()
+    growth = pd.read_csv(AOUT / "nba_growth.csv")
+    return [
+        ("chart-common-window",
+         "Listed clubs vs public equities — common window (2012→, EUR)",
+         "Equal-weight, monthly-rebalanced. All series rebased to 100; series starting later are labeled.",
+         chart_common_window(monthly)),
+        ("chart-full-window",
+         "The full window (2004→) and why it looks different",
+         "Staggered membership: clubs enter the index when they list. The strip below shows the member count.",
+         chart_full_window(monthly)),
+        ("chart-drawdown",
+         "Drawdowns — fixed-12 clubs vs S&P 500 TR (EUR)", "", chart_drawdown(monthly)),
+        ("chart-nba-values",
+         "NBA franchise values by Forbes edition", "30-team league averages.", chart_nba_values(growth)),
+        ("chart-nba-cagr",
+         "NBA value growth vs the stock market",
+         "CAGR between Forbes editions vs S&P 500 total return over the identical windows (USD).",
+         chart_nba_cagr(growth)),
+        ("chart-nba-dispersion",
+         "NBA dispersion and pricing", "Top-5 vs bottom-5 spread, and what a dollar of revenue is valued at.",
+         chart_nba_dispersion(growth)),
+        ("chart-budget-vs-rank",
+         "EuroLeague: does budget buy standings?",
+         "Each dot is a club-season. Rank 1 = biggest budget / best record. Consistent in-season figure per panel.",
+         chart_budget_vs_rank()),
+        ("chart-payrolls-2025-26",
+         "EuroLeague net player payrolls, 2025-26", "BasketNews estimates; whiskers show the reported range.",
+         chart_budgets_latest()),
+        ("chart-budgets-growth",
+         "EuroLeague total budgets, 2021-22 vs 2024-25",
+         "Single bars are one-season data: Russian clubs left the league after 2021-22; "
+         "newer entrants have no 2021-22 figure.",
+         chart_budgets_growth()),
+        ("chart-jb-capital",
+         "What is European basketball worth?", "The only club-level valuation dataset that exists.",
+         chart_jb_capital()),
+    ]
+
+
 def run():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    monthly = load_monthly()
     growth = pd.read_csv(AOUT / "nba_growth.csv")
     stats = pd.read_csv(AOUT / "listed_index_stats.csv")
     corr = pd.read_csv(AOUT / "budget_rank_correlations.csv")
@@ -294,35 +343,10 @@ def run():
     )
     built = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    sections = [
-        ("Listed clubs vs public equities — common window (2012→, EUR)",
-         "Equal-weight, monthly-rebalanced. All series rebased to 100; series starting later are labeled.",
-         chart_common_window(monthly)),
-        ("The full window (2004→) and why it looks different",
-         "Staggered membership: clubs enter the index when they list. The strip below shows the member count.",
-         chart_full_window(monthly)),
-        ("Drawdowns — fixed-12 clubs vs S&P 500 TR (EUR)", "", chart_drawdown(monthly)),
-        ("NBA franchise values by Forbes edition", "30-team league averages.", chart_nba_values(growth)),
-        ("NBA value growth vs the stock market",
-         "CAGR between Forbes editions vs S&P 500 total return over the identical windows (USD).",
-         chart_nba_cagr(growth)),
-        ("NBA dispersion and pricing", "Top-5 vs bottom-5 spread, and what a dollar of revenue is valued at.",
-         chart_nba_dispersion(growth)),
-        ("EuroLeague: does budget buy standings?",
-         "Each dot is a club-season. Rank 1 = biggest budget / best record. Consistent in-season figure per panel.",
-         chart_budget_vs_rank()),
-        ("EuroLeague net player payrolls, 2025-26", "BasketNews estimates; whiskers show the reported range.",
-         chart_budgets_latest()),
-        ("EuroLeague total budgets, 2021-22 vs 2024-25",
-         "Single bars are one-season data: Russian clubs left the league after 2021-22; "
-         "newer entrants have no 2021-22 figure.",
-         chart_budgets_growth()),
-        ("What is European basketball worth?", "The only club-level valuation dataset that exists.",
-         chart_jb_capital()),
-    ]
+    sections = build_figures()
     body = "".join(
-        f'<section><h2>{title}</h2>{f"<p class=note>{note}</p>" if note else ""}{chart}</section>'
-        for title, note, chart in sections
+        f'<section><h2>{title}</h2>{f"<p class=note>{note}</p>" if note else ""}{render(fig, div_id)}</section>'
+        for div_id, title, note, fig in sections
     )
 
     html = f"""<!DOCTYPE html>
@@ -331,7 +355,7 @@ def run():
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>European Basketball Franchise Valuation Tracker</title>
-<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-{get_plotlyjs_version()}.min.js"></script>
 <style>
   body {{ margin: 0; background: #f9f9f7; color: {INK};
          font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }}

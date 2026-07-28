@@ -126,6 +126,10 @@ Flagged honestly in the dashboard caveats; no adjustment attempted.
   (`canonical_name`); the pipeline flags any unmapped team.
 - Forbes `list_year` is the Forbes edition label: editions from 2021 onward were
   published in October of the preceding calendar year (2022 edition = Oct 2021).
+- Note-support PNG export (kaleido) is local-only via `--notepack` /
+  requirements-notepack.txt; the monthly CI refresh never builds the note pack,
+  so kaleido stays out of requirements.txt and the workflow (user ruling,
+  2026-07-18).
 
 ## Known data gaps (carry into dashboard caveats)
 

@@ -1,0 +1,3 @@
+# local-only: PNG export for the note-support pack (run_pipeline.py --notepack)
+# deliberately NOT part of requirements.txt — the monthly CI refresh never needs it
+kaleido
