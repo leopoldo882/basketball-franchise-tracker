@@ -5,7 +5,7 @@ Each section says where its numbers come from. No commentary.
 
 ## Headline numbers
 
-- **16.1%**: NBA average team value, growth per year (Forbes 2016 to 2026) (S&P 500 with dividends over the same months: 15.6%)
+- **16.1%**: NBA team values, average growth per year, Forbes 2016 to 2026 (S&P 500 with dividends over the same months: 15.6%)
 - **0.60**: Sharpe ratio of the 12 listed European football clubs, in euros (S&P 500: 0.93, Nov 2015 to Nov 2026)
 - **12.2x vs 1.8x**: Median enterprise value / revenue, NBA teams vs listed European football clubs (Forbes 2026; Yahoo Finance, last 12 months)
 - **1.02x to 1.41x**: NBA control sales vs the last Forbes value before the deal (5 deals, 2025 to 2026)

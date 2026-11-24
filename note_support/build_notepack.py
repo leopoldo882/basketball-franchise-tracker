@@ -68,7 +68,7 @@ def write_facts():
         "## Headline numbers",
         "",
     ]
-    for num, label, sub in headline_stats():
+    for _subject, label, num, sub in headline_stats():
         lines.append(f"- **{num}**: {label} ({sub})")
 
     lines += ["", "## Risk and return over a common window (analysis/output/risk_return.csv)", ""]

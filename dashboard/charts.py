@@ -31,21 +31,25 @@ MANUAL = common.DATA_DIR / "manual"
 FOOTBALL = "#2d63a8"
 NBA = "#de6b2a"
 EURO_BASKET = "#00876c"
-BENCHMARK = "#4a4843"   # S&P 500
-CONTEXT = "#8f8b82"     # other benchmarks, earlier seasons, projections
-INK = "#1c1b19"
-INK_2 = "#4a4843"
-MUTED = "#7d7970"
-GRID = "#e6e2d8"
-AXIS = "#c9c4b8"
-PAGE = "#f8f6f1"
-# IBM Plex Sans is loaded by the page; the PNG export falls back to Helvetica/Arial
-FONT = '"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif'
+BENCHMARK = "#3f4b5b"   # S&P 500
+CONTEXT = "#8d97a5"     # other benchmarks, earlier seasons, projections
+INK = "#13243f"         # navy, also the page's text colour
+INK_2 = "#4a586b"
+MUTED = "#6b7788"
+GRID = "#e4e9ef"
+AXIS = "#c5cdd7"
+PAGE = "#ffffff"
+# Archivo is loaded by the page; the PNG export falls back to Helvetica/Arial
+FONT = '"Archivo", "Helvetica Neue", Arial, sans-serif'
 
 EUROLEAGUE_FRENCH_CLUBS = ["AS Monaco Basket", "LDLC ASVEL", "Paris Basketball"]
 
 # plotly settings for the page: resize with the window, no toolbar
 CONFIG_DEFAULT = {"responsive": True, "displayModeBar": False}
+# for the charts where dots sit close together: a small always-visible toolbar
+# with zoom in, zoom out and reset (the buttons also work on a phone)
+CONFIG_ZOOM = {"responsive": True, "displayModeBar": True, "displaylogo": False,
+               "modeBarButtons": [["zoomIn2d", "zoomOut2d", "resetScale2d"]]}
 
 SERIES_LABELS = {
     "eu_football": "European football clubs (join as they list)",
@@ -59,7 +63,9 @@ SERIES_LABELS = {
 
 # ---------- shared styling ----------
 
-def style(fig, height, legend=True, hover="x unified", margin=None):
+def style(fig, height, legend=True, hover="x unified", margin=None, zoom=False):
+    """Shared look. Dragging on a chart does nothing unless zoom=True, so that
+    swiping over a chart on a phone scrolls the page instead of zooming."""
     fig.update_layout(
         template="none", paper_bgcolor=PAGE, plot_bgcolor=PAGE,
         font=dict(family=FONT, size=12, color=INK_2),
@@ -69,8 +75,10 @@ def style(fig, height, legend=True, hover="x unified", margin=None):
         legend=dict(orientation="h", x=0, xanchor="left", y=1.02, yanchor="bottom",
                     font=dict(size=12, color=INK_2), bgcolor="rgba(0,0,0,0)"),
         hovermode=hover,
-        hoverlabel=dict(bgcolor="#fffdf8", bordercolor=AXIS, font=dict(family=FONT, size=12, color=INK)),
+        hoverlabel=dict(bgcolor="#ffffff", bordercolor=AXIS, font=dict(family=FONT, size=12, color=INK)),
         barcornerradius=1,
+        dragmode="zoom" if zoom else False,
+        modebar=dict(bgcolor="rgba(255,255,255,0.85)", color=MUTED, activecolor=INK),
     )
     # automargin grows the margin when tick labels are longer than it allows
     fig.update_xaxes(showgrid=False, showline=True, linecolor=AXIS, ticks="outside", tickcolor=AXIS,
@@ -160,7 +168,6 @@ def chart_listed_since_2012(monthly):
                                  line=dict(color=color, width=2), hovertemplate="%{y:.0f}"))
         mark_end(fig, s.index[-1], round(s.iloc[-1], 1), color, f"{s.iloc[-1]:.0f}")
     time_axis(fig)
-    fig.update_yaxes(title_text="EUR, start = 100")
     return style(fig, 440)
 
 
@@ -181,8 +188,7 @@ def chart_listed_since_2004(monthly):
                              line=dict(color=CONTEXT, width=1.5, shape="hv"), hovertemplate="%{y:.0f} clubs"),
                   row=2, col=1)
     time_axis(fig)
-    fig.update_yaxes(title_text="EUR, Jan 2004 = 100", row=1, col=1)
-    fig.update_yaxes(title_text="clubs", range=[8, 13], dtick=2, row=2, col=1)
+    fig.update_yaxes(range=[8, 13], dtick=2, row=2, col=1)
     return style(fig, 500)
 
 
@@ -266,38 +272,67 @@ def chart_nba_spread(growth):
 
 # ---------- 3. deals and multiples ----------
 
-def chart_multiples():
+ROW_GAP = 1.4    # vertical distance between the rows of the multiples chart
+LANE = 0.12      # vertical step between lanes inside a row
+
+
+def dodge(values, min_gap):
+    """Vertical lane for each dot so that dots closer than `min_gap` on the x
+    axis never sit on top of each other (a simple beeswarm). Lanes are tried
+    in the order 0, +1, -1, +2, -2, ... and the result is the same every build."""
+    lanes = [0, 1, -1, 2, -2, 3, -3, 4, -4]
+    taken = {lane: [] for lane in lanes}
+    result = pd.Series(0, index=values.index)
+    for i in values.sort_values(kind="stable").index:
+        free = [lane for lane in lanes if all(abs(values[i] - x) >= min_gap for x in taken[lane])]
+        lane = free[0] if free else lanes[-1]
+        taken[lane].append(values[i])
+        result[i] = lane
+    return result
+
+
+def multiples_rows():
+    """(label, multiples, names, colour, marker) for each row of the multiples chart."""
     nba = pd.read_csv(AOUT / "nba_multiples.csv")
     latest = int(nba.list_year.max())
     teams = nba[nba.list_year == latest]
     deals = pd.read_csv(AOUT / "transactions_vs_forbes.csv").dropna(subset=["deal_ev_to_revenue"])
     clubs = pd.read_csv(AOUT / "football_multiples.csv")
-    rows = [
+    return [
         (f"NBA teams<br>Forbes {latest}", teams.value_rev_multiple, teams.team, NBA, "circle"),
         ("NBA control<br>sales", deals.deal_ev_to_revenue, deals.team + ", " + deals.date, NBA, "diamond"),
         ("Listed European<br>football clubs", clubs.ev_to_revenue, clubs.club, FOOTBALL, "circle"),
     ]
+
+
+def multiples_views():
+    """Quick zoom buttons above the multiples chart: (button text, x range or None for everything)."""
+    teams, deals, clubs = (r[1] for r in multiples_rows())
+    nba = pd.concat([teams, deals])
+    return [("All", None),
+            ("Football clubs", (0, round(clubs.max() * 1.12, 1))),
+            ("NBA teams and sales", (round(nba.min() * 0.94, 1), round(nba.max() * 1.03, 1)))]
+
+
+def chart_multiples():
+    rows = multiples_rows()
     fig = go.Figure()
     for i, (label, values, names, color, symbol) in enumerate(rows):
-        y = len(rows) - 1 - i   # first row drawn at the top
+        y = (len(rows) - 1 - i) * ROW_GAP   # first row drawn at the top
         values = values.reset_index(drop=True)
         names = names.reset_index(drop=True)
-        # fixed small vertical offsets so dots with similar values don't hide each
-        # other (no random jitter, so every build draws the same picture)
-        offsets = (values.rank(method="first").astype(int) % 3 - 1) * 0.13
+        offsets = dodge(values, min_gap=0.35) * LANE
         fig.add_trace(go.Scatter(x=values, y=y + offsets, mode="markers", showlegend=False,
-                                 marker=dict(size=10, color=color, symbol=symbol, line=dict(width=2, color=PAGE)),
+                                 marker=dict(size=10, color=color, symbol=symbol, line=dict(width=1.5, color=PAGE)),
                                  text=names, hovertemplate="%{text}: %{x:.1f}x<extra></extra>"))
         median = values.median()
-        fig.add_trace(go.Scatter(x=[median], y=[y], mode="markers", showlegend=False,
-                                 marker=dict(symbol="line-ns", size=30, line=dict(width=2, color=INK)),
-                                 hovertemplate=f"median {median:.1f}x<extra></extra>"))
-        fig.add_annotation(x=median, y=y + 0.36, text=f"median {median:.1f}x", showarrow=False,
-                           font=dict(size=12, color=INK))
-    fig.update_yaxes(tickvals=list(range(len(rows))), ticktext=[r[0] for r in rows][::-1],
-                     range=[-0.6, len(rows) - 0.3])
+        fig.add_shape(type="line", x0=median, x1=median, y0=y - 0.5, y1=y + 0.5, line=dict(color=INK, width=2))
+        fig.add_annotation(x=median, y=y + 0.5, yanchor="bottom", text=f"median {median:.1f}x",
+                           showarrow=False, font=dict(size=12, color=INK))
+    fig.update_yaxes(tickvals=[i * ROW_GAP for i in range(len(rows))], ticktext=[r[0] for r in rows][::-1],
+                     range=[-0.7, (len(rows) - 1) * ROW_GAP + 0.85], fixedrange=True)
     fig.update_xaxes(title_text="Enterprise value / revenue (x)", rangemode="tozero")
-    style(fig, 320, legend=False, hover="closest", margin=dict(l=118, r=24, t=16, b=44))
+    style(fig, 380, legend=False, hover="closest", margin=dict(l=118, r=24, t=16, b=44), zoom=True)
     return horizontal(fig)
 
 
@@ -322,13 +357,14 @@ def chart_budget_vs_rank():
         fig.add_shape(type="line", x0=1, y0=1, x1=n, y1=n, line=dict(color=AXIS, width=1), row=1, col=i)
         fig.add_trace(go.Scatter(
             x=sub.budget_rank, y=sub.rs_rank, mode="markers", showlegend=False,
-            marker=dict(color=EURO_BASKET, size=9, line=dict(width=2, color=PAGE)),
-            customdata=sub.canonical_name,
-            hovertemplate="%{customdata}<br>budget rank %{x:.0f}, finished %{y}<extra></extra>"), row=1, col=i)
+            marker=dict(color=EURO_BASKET, size=10, line=dict(width=1.5, color=PAGE)),
+            customdata=sub[["canonical_name", "amount_mid_eur_m"]],
+            hovertemplate="<b>%{customdata[0]}</b><br>budget €%{customdata[1]:.1f}M, rank %{x:.0f}"
+                          "<br>finished %{y}<extra></extra>"), row=1, col=i)
         fig.update_xaxes(title_text="budget rank", row=1, col=i)
     fig.update_yaxes(autorange="reversed")
     fig.update_yaxes(title_text="league position", row=1, col=1)
-    style(fig, 400, legend=False, hover="closest", margin=dict(l=52, r=16, t=84, b=44))
+    style(fig, 440, legend=False, hover="closest", margin=dict(l=52, r=16, t=84, b=44), zoom=True)
     fig.update_xaxes(showgrid=True, gridcolor=GRID, showline=False, ticks="")
     return fig
 

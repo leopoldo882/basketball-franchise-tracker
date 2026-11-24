@@ -12,7 +12,8 @@ import pandas as pd
 from plotly.offline import get_plotlyjs_version
 
 from collectors import common
-from dashboard.charts import AOUT, AXIS, CONFIG_DEFAULT, GRID, INK, INK_2, MANUAL, MUTED, PAGE, build_figures
+from dashboard.charts import (AOUT, AXIS, BENCHMARK, CONFIG_DEFAULT, CONFIG_ZOOM, EURO_BASKET, FOOTBALL, GRID, INK,
+                              INK_2, MANUAL, MUTED, NBA, PAGE, build_figures, multiples_views)
 
 # Set this once the repo is on GitHub, e.g. "https://github.com/<user>/<repo>".
 # While it's empty the page shows file paths instead of links to the data.
@@ -22,9 +23,9 @@ AUTHOR = "Leopoldo Lioy"
 DESCRIPTION = ("NBA franchise values, EuroLeague budgets and listed European football clubs, "
                "compared with the stock market. Built from public data with Python.")
 
-# Source Serif 4 for the text, IBM Plex Sans for labels, tables and charts
-FONTS_URL = ("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600"
-             "&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap")
+# Archivo for everything: condensed and heavy for headings and key numbers,
+# normal width for text, tables and charts
+FONTS_URL = "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap"
 
 # Browser tab icon: a small basketball drawn in SVG, inlined so there's no extra file
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
@@ -58,9 +59,11 @@ def pct(x, digits=1):
 
 
 def data_link(path):
+    """The CSV's file name, linked to the file on GitHub."""
+    name = path.split("/")[-1]
     if REPO_URL:
-        return f'<a href="{esc(REPO_URL)}/blob/main/{esc(path)}">{esc(path)}</a>'
-    return f"<code>{esc(path)}</code>"
+        return f'<a href="{esc(REPO_URL)}/blob/main/{esc(path)}">{esc(name)}</a>'
+    return esc(name)
 
 
 def link(url, text):
@@ -115,21 +118,21 @@ def headline_stats():
     el = pd.read_csv(MANUAL / "euroleague_valuations.csv")
     league = el[(el.entity_type == "league") & (el.season == "2025-26")].value_eur_m_low.iloc[0]
 
+    # (subject, what it is, value, context); the subject picks the colour of the dot
     return [
-        (pct(nba), f"NBA average team value, growth per year (Forbes {first} to {last})",
+        ("nba", f"NBA team values, average growth per year, Forbes {first} to {last}", pct(nba),
          f"S&P 500 with dividends over the same months: {pct(sp)}"),
-        (f"{clubs.sharpe:.2f}", "Sharpe ratio of the 12 listed European football clubs, in euros",
+        ("football", "Sharpe ratio of the 12 listed European football clubs, in euros", f"{clubs.sharpe:.2f}",
          f"S&P 500: {spx.sharpe:.2f}, {month_name(clubs.window_start)} to {month_name(clubs.window_end)}"),
-        (f"{nba_multiple:.1f}x vs {football_multiple:.1f}x",
-         "Median enterprise value / revenue, NBA teams vs listed European football clubs",
-         f"Forbes {last}; Yahoo Finance, last 12 months"),
-        (f"{deals.deal_over_forbes.min():.2f}x to {deals.deal_over_forbes.max():.2f}x",
-         "NBA control sales vs the last Forbes value before the deal",
+        ("both", "Median enterprise value / revenue, NBA teams vs listed European football clubs",
+         f"{nba_multiple:.1f}x vs {football_multiple:.1f}x", f"Forbes {last}; Yahoo Finance, last 12 months"),
+        ("nba", "NBA control sales vs the last Forbes value before the deal",
+         f"{deals.deal_over_forbes.min():.2f}x to {deals.deal_over_forbes.max():.2f}x",
          f"{len(deals)} deals, {deals.date.min()[:4]} to {deals.date.max()[:4]}"),
-        (f"{corr.spearman_rho.min():.2f} to {corr.spearman_rho.max():.2f}",
-         "Rank correlation between EuroLeague budget and league position",
+        ("euro", "Rank correlation between EuroLeague budget and league position",
+         f"{corr.spearman_rho.min():.2f} to {corr.spearman_rho.max():.2f}",
          "Spearman, by season and budget definition"),
-        (f"€{league / 1000:.2f}bn", "Valuation of the EuroLeague league company, 2025-26",
+        ("euro", "Valuation of the EuroLeague league company, 2025-26", f"€{league / 1000:.2f}bn",
          "JB Capital, March 2026"),
     ]
 
@@ -340,24 +343,39 @@ def sources():
 
 # ---------- page ----------
 
-def figure_html(number, div_id, fig, title, subtitle, source, data_path, details=""):
-    chart = fig.to_html(full_html=False, include_plotlyjs=False, config=CONFIG_DEFAULT, div_id=div_id)
-    return (f"<figure><figcaption><span class=fig-no>Figure {number}</span>"
+ZOOM_HINT = ("<p class=hint><span class=mouse>Drag across the chart to zoom in, double-click to zoom back out.</span>"
+             "<span class=touch>Use + and − at the top right to zoom, and tap a dot to see its numbers.</span></p>")
+
+
+def view_buttons(div_id, views):
+    """Buttons that zoom the chart's x axis to a preset range (handled by the script at the end of the page)."""
+    buttons = "".join(
+        f'<button type="button" aria-pressed="{str(i == 0).lower()}" '
+        f'data-range="{"" if r is None else f"{r[0]},{r[1]}"}">{esc(text)}</button>'
+        for i, (text, r) in enumerate(views))
+    return f'<div class="views" role="group" aria-label="Zoom to" data-chart="{div_id}">{buttons}</div>'
+
+
+def figure_html(div_id, fig, title, subtitle, source, data_path, details="", zoom=False, views=None):
+    chart = fig.to_html(full_html=False, include_plotlyjs=False, div_id=div_id,
+                        config=CONFIG_ZOOM if zoom else CONFIG_DEFAULT)
+    controls = (view_buttons(div_id, views) if views else "") + (ZOOM_HINT if zoom else "")
+    return (f"<figure{' class=zoomable' if zoom else ''}><figcaption>"
             f"<span class=fig-title>{esc(title)}</span><span class=fig-sub>{esc(subtitle)}</span></figcaption>"
-            f"{chart}<p class=source>Source: {esc(source)}. Data: {data_link(data_path)}</p>{details}</figure>")
+            f"{controls}{chart}<p class=source>Source: {esc(source)}. Data: {data_link(data_path)}</p>{details}</figure>")
 
 
 def run():
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     figs = dict(build_figures())
     growth = pd.read_csv(AOUT / "nba_growth.csv")
-    count = iter(range(1, 100))
 
-    def fig(div_id, title, subtitle, source, data_path, details=""):
-        return figure_html(next(count), div_id, figs[div_id], title, subtitle, source, data_path, details)
+    def fig(div_id, title, subtitle, source, data_path, details="", **options):
+        return figure_html(div_id, figs[div_id], title, subtitle, source, data_path, details, **options)
 
+    # (anchor, subject, title, intro, contents); the subject sets the colour bar above the heading
     chapters = [
-        ("listed", "Listed football clubs vs equities",
+        ("listed", "football", "Listed football clubs vs equities",
          "Twelve European football clubs trade on stock exchanges. Here they are treated as one portfolio, "
          "equal weight and rebalanced monthly, in euros, against the S&P 500 and MSCI Europe with dividends "
          "reinvested. The US sports companies (MSG Knicks, Atlanta Braves, TKO, MSG Entertainment) are shown "
@@ -372,7 +390,7 @@ def run():
               "How far each index is below its previous high, in euros.",
               "Yahoo Finance", "analysis/output/listed_index_monthly.csv"),
           "<h3>Risk and return</h3>" + risk_table()]),
-        ("nba", "NBA franchise values",
+        ("nba", "nba", "NBA franchise values",
          "Forbes estimates the value and revenue of all 30 NBA teams every year. Six editions from 2016 to "
          "2026 are used here, compared with the S&P 500 over exactly the same months.",
          [fig("chart-nba-values", "Average NBA team value",
@@ -383,20 +401,22 @@ def run():
               "Forbes; Yahoo Finance (^SP500TR)", "analysis/output/nba_growth.csv", numbers(cagr_table(growth))),
           fig("chart-nba-spread", "Richest vs poorest teams, and value per dollar of revenue",
               "Two measures, so two panels.", "Forbes via the Wayback Machine", "analysis/output/nba_growth.csv")]),
-        ("multiples", "Deals and multiples",
+        ("multiples", "both", "Deals and multiples",
          "What teams actually change hands for, and what they are worth relative to revenue: NBA control sales "
          "against Forbes' estimates, and NBA multiples next to listed European football clubs.",
          ["<h3>NBA control sales vs the last Forbes value</h3>" + deals_table(),
           fig("chart-multiples", "Enterprise value as a multiple of revenue",
-              "Each dot is a team, a sale or a club; the black tick marks the median.",
+              "Each dot is a team, a sale or a club, and the dark line marks the median. Dots that would "
+              "overlap are moved up or down a little; only the horizontal position is the value.",
               "Forbes; deal reports; Yahoo Finance", "analysis/output/football_multiples.csv",
-              numbers(football_table()))]),
-        ("euroleague", "EuroLeague",
+              numbers(football_table()), zoom=True, views=multiples_views())]),
+        ("euroleague", "euro", "EuroLeague",
          "No EuroLeague club is listed and few publish accounts. What exists: BasketNews' yearly budget "
          "estimates, the league's standings and one valuation by JB Capital.",
          [fig("chart-budget-vs-rank", "Budget rank vs league position",
               "One dot per club per season. The grey line is where budget rank and position would be equal.",
-              "BasketNews; EuroLeague API", "analysis/output/budget_vs_performance.csv", numbers(correlation_table())),
+              "BasketNews; EuroLeague API", "analysis/output/budget_vs_performance.csv", numbers(correlation_table()),
+              zoom=True),
           fig("chart-payrolls-2025-26", "Net player payrolls, 2025-26",
               "BasketNews estimates; the whiskers show the range they reported.",
               "BasketNews", "data/euroleague_budgets.csv", numbers(payroll_table())),
@@ -407,7 +427,7 @@ def run():
           fig("chart-jb-capital", "JB Capital's valuation of the EuroLeague",
               "The only published valuation of EuroLeague clubs: one estimate from March 2026.",
               "EuroLeague press release", "data/manual/euroleague_valuations.csv", numbers(jb_table()))]),
-        ("france", "French league",
+        ("france", "euro", "French league",
          "The French league publishes every club's budget and payroll each September. Three of its clubs "
          "played in the EuroLeague in 2025-26: Monaco, Paris and ASVEL (in bold below).",
          [fig("chart-lnb-budgets", "Betclic Élite budgets, 2024-25 and 2025-26",
@@ -415,21 +435,25 @@ def run():
               "LNB / DNCCG", "data/manual/lnb_dnccg.csv", numbers(lnb_table()))]),
     ]
 
-    key_figures = "".join(f"<dt>{esc(n)}</dt><dd><p>{esc(l)}</p><p class=sub>{esc(s)}</p></dd>"
-                          for n, l, s in headline_stats())
-    toc = "".join(f'<li><a href="#{cid}"><span class=toc-no>{i}</span>{esc(title)}</a></li>'
-                  for i, (cid, title, _, _) in enumerate(chapters, start=1))
-    toc += "".join(f'<li><a href="#{cid}"><span class=toc-no></span>{name}</a></li>'
-                   for cid, name in [("sources", "Sources"), ("caveats", "Caveats"), ("about", "About")])
+    facts = "".join(
+        f'<li class="{s}"><span class="dot" aria-hidden="true"></span><span class="what">{esc(w)}</span>'
+        f'<span class="value">{esc(v)}</span><span class="context">{esc(c)}</span></li>'
+        for s, w, v, c in headline_stats())
+    nav_items = [(cid, subject, title) for cid, subject, title, _, _ in chapters]
+    nav_items += [("sources", "none", "Sources"), ("caveats", "none", "Caveats"), ("about", "none", "About")]
+    contents = "".join(f'<li class="{s}"><a href="#{cid}"><span class="dot" aria-hidden="true"></span>{esc(t)}</a></li>'
+                       for cid, s, t in nav_items)
     body = "".join(
-        f'<section id="{cid}"><h2><span class=ch-no>Part {i}</span>{esc(title)}</h2><p class=lede>{esc(lede)}</p>'
+        f'<section id="{cid}" class="{subject}"><h2>{esc(title)}</h2><p class="lede">{esc(lede)}</p>'
         + "".join(parts) + "</section>"
-        for i, (cid, title, lede, parts) in enumerate(chapters, start=1))
+        for cid, subject, title, lede, parts in chapters)
 
     on_github = link(REPO_URL, "on GitHub") if REPO_URL else "on GitHub"
-    topline_repo = f"<span>{link(REPO_URL, 'Code and data')}</span>" if REPO_URL else ""
+    rail_links = ""
     share_tags = ""
     if REPO_URL:
+        rail_links = (f'<p class="rail-links">{link(REPO_URL, "Code and data")}<br>'
+                      f'{link(REPO_URL + "/blob/main/methodology.md", "Methodology")}</p>')
         share_tags = (f'<meta property="og:url" content="{pages_url()}">\n'
                       f'<meta property="og:image" content="{pages_url()}screenshot.png">\n')
 
@@ -451,101 +475,142 @@ def run():
 <script src="https://cdn.plot.ly/plotly-{get_plotlyjs_version()}.min.js"></script>
 <style>
   :root {{ color-scheme: light;
-          --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
-          --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; }}
+          --paper: {PAGE}; --panel: #f1f4f7; --ink: {INK}; --ink-2: {INK_2}; --muted: {MUTED};
+          --rule: {GRID}; --axis: {AXIS};
+          --football: {FOOTBALL}; --nba: {NBA}; --euro: {EURO_BASKET}; --bench: {BENCHMARK};
+          --font: "Archivo", "Helvetica Neue", Arial, sans-serif; }}
   * {{ box-sizing: border-box; }}
-  body {{ margin: 0; background: {PAGE}; color: {INK}; font: 17px/1.55 var(--serif); }}
-  main {{ max-width: 960px; margin: 0 auto; padding: 0 20px 96px; }}
-  a {{ color: inherit; text-decoration-color: {AXIS}; text-decoration-thickness: 1px; text-underline-offset: 3px; }}
+  html {{ scroll-behavior: smooth; }}
+  body {{ margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--font); }}
+  a {{ color: inherit; text-decoration-color: var(--axis); text-decoration-thickness: 1px; text-underline-offset: 3px; }}
   a:hover {{ text-decoration-color: currentColor; }}
-  code {{ font: 0.92em ui-monospace, Menlo, Consolas, monospace; }}
-  .label, .ch-no, .fig-no, .topline {{ font: 600 0.72rem/1.3 var(--sans); letter-spacing: 0.08em;
-                                      text-transform: uppercase; }}
+  a:focus-visible, button:focus-visible, summary:focus-visible {{ outline: 2px solid var(--football);
+                                                                outline-offset: 2px; border-radius: 2px; }}
 
-  .topline {{ display: flex; flex-wrap: wrap; gap: 4px 28px; padding: 16px 0 10px;
-              border-bottom: 1px solid {INK}; color: {INK_2}; }}
-  .topline .date {{ margin-left: auto; }}
-  h1 {{ max-width: 15em; margin: 48px 0 18px; font-size: clamp(2.1rem, 5.4vw, 3.2rem); font-weight: 600;
-        line-height: 1.05; letter-spacing: -0.018em; }}
-  .dek {{ max-width: 33em; margin: 0 0 48px; font-size: 1.24rem; line-height: 1.45; color: {INK_2}; }}
+  /* subject colours: every dot and section bar uses --c (and --c2 when a section covers two subjects) */
+  .football {{ --c: var(--football); }}
+  .nba {{ --c: var(--nba); }}
+  .euro {{ --c: var(--euro); }}
+  .bench {{ --c: var(--bench); }}
+  .both {{ --c: var(--nba); --c2: var(--football); }}
+  .dot, .swatch {{ display: inline-block; flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%;
+                  background: linear-gradient(90deg, var(--c) 50%, var(--c2, var(--c)) 50%); }}
+  .none .dot {{ background: none; box-shadow: inset 0 0 0 1.5px var(--axis); }}
 
-  .front {{ display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 56px; }}
-  .label {{ margin: 0 0 12px; color: {MUTED}; }}
-  .key {{ display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 28px; margin: 0; }}
-  .key dt, .key dd {{ margin: 0; padding: 13px 0 15px; border-top: 1px solid {GRID}; }}
-  .key dt:first-of-type, .key dd:first-of-type {{ border-top: 0; padding-top: 2px; }}
-  .key dt {{ font-size: 1.62rem; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em;
-             font-variant-numeric: lining-nums tabular-nums; }}
-  .key dd p {{ margin: 0; font: 0.94rem/1.4 var(--sans); }}
-  .key dd .sub {{ margin-top: 3px; font-size: 0.8rem; color: {MUTED}; }}
-  .toc ol {{ margin: 0; padding: 0; list-style: none; font: 0.92rem/1.35 var(--sans); }}
-  .toc li + li {{ border-top: 1px solid {GRID}; }}
-  .toc a {{ display: flex; gap: 10px; padding: 9px 0; text-decoration: none; }}
-  .toc a:hover {{ text-decoration: underline; }}
-  .toc-no {{ flex: 0 0 1.1em; color: {MUTED}; }}
+  .layout {{ display: grid; grid-template-columns: 196px minmax(0, 1fr); gap: 72px; max-width: 1140px;
+             margin: 0 auto; padding: 56px 32px 96px; }}
+  main {{ min-width: 0; max-width: 820px; }}
+  .rail {{ position: sticky; top: 40px; align-self: start; font-size: 0.9rem; line-height: 1.35; }}
+  .rail-title {{ margin: 0 0 18px; font-size: 1.05rem; font-weight: 750; font-stretch: 80%; line-height: 1.15; }}
+  .rail-title a {{ text-decoration: none; }}
+  .toc {{ margin: 0; padding: 0; list-style: none; }}
+  .toc a {{ display: flex; align-items: center; gap: 10px; padding: 6px 0; color: var(--ink-2); text-decoration: none; }}
+  .toc a:hover {{ color: var(--ink); }}
+  .rail-links {{ margin: 22px 0 0; padding-top: 14px; border-top: 1px solid var(--rule); color: var(--ink-2); line-height: 1.9; }}
+  .toc-inline {{ display: none; }}
 
-  section {{ margin-top: 96px; }}
-  h2 {{ margin: 0 0 14px; padding-top: 14px; border-top: 2px solid {INK};
-        font-size: 1.95rem; font-weight: 600; line-height: 1.15; letter-spacing: -0.012em; }}
-  .ch-no {{ display: block; margin-bottom: 10px; color: {MUTED}; }}
-  h3 {{ margin: 52px 0 4px; font-size: 1.22rem; font-weight: 600; }}
-  .lede {{ max-width: 35em; margin: 0; font-size: 1.12rem; color: {INK_2}; }}
-  figure {{ margin: 56px 0 0; }}
-  figcaption {{ max-width: 40em; margin-bottom: 10px; }}
-  .fig-no {{ display: block; margin-bottom: 6px; color: {MUTED}; }}
-  .fig-title {{ display: block; font-size: 1.22rem; font-weight: 600; line-height: 1.25; }}
-  .fig-sub {{ display: block; margin-top: 4px; font: 0.9rem/1.45 var(--sans); color: {INK_2}; }}
-  .source {{ max-width: 52em; margin: 8px 0 0; font: 0.78rem/1.45 var(--sans); color: {MUTED}; }}
-  .source a, .source code {{ color: {INK_2}; }}
+  h1 {{ max-width: 12em; margin: 0 0 22px; font-size: clamp(2.6rem, 6.6vw, 4.5rem); font-weight: 800;
+        font-stretch: 70%; line-height: 0.95; letter-spacing: -0.005em; }}
+  .dek {{ max-width: 33em; margin: 0 0 22px; font-size: 1.3rem; line-height: 1.45; color: var(--ink-2); }}
+  .byline, .colour-key {{ max-width: 46em; margin: 0 0 6px; font-size: 0.95rem; color: var(--ink-2); }}
+  .colour-key .swatch {{ margin: 0 6px 0 2px; }}
 
-  details {{ margin-top: 10px; font: 0.85rem/1.4 var(--sans); }}
-  summary {{ width: fit-content; cursor: pointer; color: {INK_2}; }}
-  summary:hover {{ color: {INK}; }}
+  .facts-panel {{ margin-top: 48px; padding: 24px 28px 8px; border-radius: 6px; background: var(--panel); }}
+  .facts-panel h2 {{ margin: 0 0 4px; font-size: 1.4rem; }}
+  .facts {{ margin: 0; padding: 0; list-style: none; }}
+  .facts li {{ display: grid; grid-template-columns: 10px minmax(0, 1fr) 10.5rem minmax(0, 14rem);
+               column-gap: 18px; align-items: baseline; padding: 14px 0; border-top: 1px solid #dde3ea; }}
+  .facts li:first-child {{ border-top: 0; }}
+  .facts .dot {{ align-self: center; }}
+  .facts .value {{ font-size: 1.6rem; font-weight: 750; font-stretch: 78%; line-height: 1.1;
+                   font-variant-numeric: tabular-nums; white-space: nowrap; }}
+  .facts .context {{ font-size: 0.85rem; line-height: 1.4; color: var(--ink-2); }}
+
+  section {{ margin-top: 104px; scroll-margin-top: 24px; }}
+  h2 {{ margin: 0 0 14px; font-size: 2.4rem; font-weight: 800; font-stretch: 72%; line-height: 1.02; }}
+  section.football > h2::before, section.nba > h2::before, section.both > h2::before,
+  section.euro > h2::before {{ content: ""; display: block; width: 56px; height: 6px; margin-bottom: 16px;
+                              border-radius: 1px; background: linear-gradient(90deg, var(--c) 50%, var(--c2, var(--c)) 50%); }}
+  h3 {{ margin: 56px 0 6px; font-size: 1.4rem; font-weight: 750; font-stretch: 80%; line-height: 1.15; }}
+  .lede {{ max-width: 36em; margin: 0; font-size: 1.12rem; color: var(--ink-2); }}
+  figure {{ margin: 64px 0 0; }}
+  figcaption {{ max-width: 42em; margin-bottom: 8px; }}
+  .fig-title {{ display: block; font-size: 1.22rem; font-weight: 700; line-height: 1.25; }}
+  .fig-sub {{ display: block; margin-top: 4px; font-size: 0.95rem; color: var(--ink-2); }}
+  .source {{ max-width: 52em; margin: 8px 0 0; font-size: 0.82rem; color: var(--muted); }}
+  .source a {{ color: var(--ink-2); }}
+
+  .views {{ display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; }}
+  .views button {{ padding: 6px 14px; border: 1px solid var(--axis); border-radius: 999px; background: var(--paper);
+                   color: var(--ink-2); font: 600 0.85rem/1.2 var(--font); cursor: pointer; }}
+  .views button:hover {{ border-color: var(--ink-2); color: var(--ink); }}
+  .views button[aria-pressed="true"] {{ border-color: var(--ink); background: var(--ink); color: #fff; }}
+  .hint {{ margin: 8px 0 0; font-size: 0.82rem; color: var(--muted); }}
+  .hint .touch {{ display: none; }}
+  @media (pointer: coarse) {{ .hint .mouse {{ display: none; }} .hint .touch {{ display: inline; }} }}
+
+  details {{ margin-top: 12px; font-size: 0.88rem; }}
+  summary {{ width: fit-content; cursor: pointer; font-weight: 600; color: var(--ink-2); }}
+  summary:hover {{ color: var(--ink); }}
   .table-wrap {{ overflow-x: auto; margin-top: 10px; }}
-  table {{ width: 100%; border-collapse: collapse; font: 0.85rem/1.4 var(--sans); font-variant-numeric: tabular-nums; }}
-  th {{ padding: 7px 12px 7px 0; border-bottom: 1px solid {INK}; text-align: left; vertical-align: bottom;
-        font-weight: 600; color: {INK_2}; }}
-  td {{ padding: 7px 12px 7px 0; border-bottom: 1px solid {GRID}; white-space: nowrap; }}
+  table {{ width: 100%; border-collapse: collapse; font-size: 0.88rem; font-variant-numeric: tabular-nums; }}
+  th {{ padding: 8px 12px 8px 0; border-bottom: 2px solid var(--ink); text-align: left; vertical-align: bottom;
+        font-weight: 650; }}
+  td {{ padding: 7px 12px 7px 0; border-bottom: 1px solid var(--rule); white-space: nowrap; }}
   th.r, td.r {{ padding-right: 0; padding-left: 16px; text-align: right; }}
-  tbody tr:hover td {{ background: #f0ece3; }}
+  tbody tr:hover td {{ background: #f6f8fa; }}
 
-  .notes {{ max-width: 38em; margin: 20px 0 0; padding-left: 1.3em; color: {INK_2}; }}
+  .notes {{ max-width: 40em; margin: 20px 0 0; padding-left: 1.3em; color: var(--ink-2); }}
   .notes li {{ margin-bottom: 10px; padding-left: 4px; }}
-  ol.notes li::marker {{ font: 600 0.8rem var(--sans); color: {MUTED}; }}
-  #about p {{ max-width: 35em; margin: 16px 0 0; }}
-  footer {{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; margin-top: 80px;
-            padding-top: 12px; border-top: 1px solid {INK}; font: 0.78rem/1.5 var(--sans); color: {MUTED}; }}
+  ol.notes li::marker {{ font-weight: 700; color: var(--muted); }}
+  #about p {{ max-width: 36em; margin: 16px 0 0; }}
+  footer {{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; margin-top: 88px;
+            padding-top: 16px; border-top: 1px solid var(--rule); font-size: 0.82rem; color: var(--muted); }}
   footer span:first-child {{ flex: 1 1 30em; max-width: 46em; }}
 
-  @media (max-width: 760px) {{
+  @media (max-width: 1080px) {{
+    .layout {{ grid-template-columns: minmax(0, 1fr); max-width: 884px; padding-top: 36px; }}
+    .rail {{ display: none; }}
+    .toc-inline {{ display: block; margin-top: 40px; }}
+    .toc-inline h2 {{ margin: 0 0 6px; font-size: 1.4rem; }}
+    .toc-inline .toc {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); column-gap: 24px; }}
+  }}
+  @media (max-width: 640px) {{
     body {{ font-size: 16px; }}
-    .topline .date {{ margin-left: 0; }}
-    h1 {{ margin-top: 32px; }}
-    .dek {{ font-size: 1.12rem; margin-bottom: 36px; }}
-    .front {{ grid-template-columns: 1fr; gap: 36px; }}
-    .key dt {{ font-size: 1.35rem; }}
-    section {{ margin-top: 72px; }}
-    h2 {{ font-size: 1.55rem; }}
+    .layout {{ padding: 28px 18px 72px; }}
+    .dek {{ font-size: 1.15rem; }}
+    .facts-panel {{ padding: 18px 16px 6px; }}
+    .facts li {{ grid-template-columns: 10px minmax(0, 1fr); row-gap: 4px; }}
+    .facts .value, .facts .context {{ grid-column: 2; }}
+    .facts .value {{ font-size: 1.45rem; }}
+    section {{ margin-top: 80px; }}
+    h2 {{ font-size: 2rem; }}
   }}
-  @media (max-width: 480px) {{
-    .key {{ grid-template-columns: 1fr; }}
-    .key dt {{ padding-bottom: 4px; }}
-    .key dd, .key dd:first-of-type {{ padding-top: 0; border-top: 0; }}
-  }}
+  @media (prefers-reduced-motion: reduce) {{ html {{ scroll-behavior: auto; }} }}
 </style>
 </head>
 <body>
+<div class="layout">
+<aside class="rail">
+<p class="rail-title"><a href="#top">Basketball franchise valuation tracker</a></p>
+<nav aria-label="Contents"><ol class="toc">{contents}</ol></nav>
+{rail_links}
+</aside>
 <main>
-<header>
-<div class="topline"><span>{esc(AUTHOR)}</span><span>Personal research project</span>{topline_repo}<span class="date">Market data to {data_date()}</span></div>
+<header id="top">
 <h1>European Basketball Franchise Valuation Tracker</h1>
 <p class="dek">How NBA franchises, EuroLeague clubs and listed football clubs are valued, and how those values
 compare with the stock market. Built from public sources; every figure says where its numbers come from.</p>
+<p class="byline">By {esc(AUTHOR)}. Market data to {data_date()}; share prices update on the 3rd of each month.</p>
+<p class="colour-key"><span class="swatch football"></span>Blue is listed European football,
+<span class="swatch nba"></span>orange the NBA and US sports companies,
+<span class="swatch euro"></span>teal European basketball and
+<span class="swatch bench"></span>grey the stock market, on every chart.</p>
 </header>
-<div class="front">
-<div><h2 class="label">In numbers</h2><dl class="key">{key_figures}</dl></div>
-<nav class="toc" aria-label="Contents"><h2 class="label">Contents</h2><ol>{toc}</ol></nav>
-</div>
+<section class="facts-panel" aria-labelledby="key-figures"><h2 id="key-figures">Key figures</h2>
+<ul class="facts">{facts}</ul></section>
+<nav class="toc-inline" aria-labelledby="contents-title"><h2 id="contents-title">Contents</h2>
+<ol class="toc">{contents}</ol></nav>
 {body}
 <section id="sources"><h2>Sources</h2>{sources()}</section>
 <section id="caveats"><h2>Caveats</h2>{caveats()}</section>
@@ -557,12 +622,34 @@ and a log of every method choice (with the alternative I didn't take) are {on_gi
 <footer><span>Python: requests, BeautifulSoup, pandas, yfinance, plotly. Share prices refresh on the 3rd of each
 month through GitHub Actions; the yearly figures are updated by hand.</span><span>Not investment advice.</span></footer>
 </main>
+</div>
 <script>
-// The charts are drawn before the web fonts finish loading; redraw them once
-// the fonts are in so the labels are measured with the right font.
+// The charts are drawn before the web font finishes loading; redraw them once
+// it is in so the labels are measured with the right font.
 if (document.fonts) {{
   document.fonts.ready.then(function () {{
     document.querySelectorAll(".js-plotly-plot").forEach(function (chart) {{ Plotly.Plots.resize(chart); }});
+  }});
+}}
+
+// Buttons above a chart that jump to a preset x-axis range (an empty range shows everything).
+document.querySelectorAll(".views").forEach(function (group) {{
+  var chart = document.getElementById(group.dataset.chart);
+  var buttons = group.querySelectorAll("button");
+  buttons.forEach(function (button) {{
+    button.addEventListener("click", function () {{
+      var range = button.dataset.range;
+      Plotly.relayout(chart, range ? {{"xaxis.range": range.split(",").map(Number)}} : {{"xaxis.autorange": true}});
+      buttons.forEach(function (b) {{ b.setAttribute("aria-pressed", b === button ? "true" : "false"); }});
+    }});
+  }});
+}});
+
+// On a touch screen a swipe over a chart should scroll the page, so zooming
+// there is done with the + and - buttons instead of dragging.
+if (window.matchMedia("(pointer: coarse)").matches) {{
+  document.querySelectorAll(".zoomable .js-plotly-plot").forEach(function (chart) {{
+    Plotly.relayout(chart, {{dragmode: false}});
   }});
 }}
 </script>
