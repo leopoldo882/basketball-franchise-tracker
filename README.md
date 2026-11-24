@@ -7,6 +7,8 @@ the S&P 500 and European equities.
 
 **Live dashboard:** https://leopoldo882.github.io/basketball-franchise-tracker/
 
+**How it's calculated:** [methodology.md](methodology.md)
+
 ![Dashboard screenshot](docs/screenshot.png)
 
 ## What it covers

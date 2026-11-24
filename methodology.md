@@ -1,7 +1,8 @@
 # Methodology
 
-Every choice that affects a number, why I made it, and the main alternative.
-Source-by-source access notes are in [data_inventory.md](data_inventory.md).
+How the numbers on the dashboard are worked out. For each decision I wrote down what I did, why,
+and the main alternative I considered. Where each source comes from and how it's collected is in
+[data_inventory.md](data_inventory.md).
 
 ## Listed clubs index
 
@@ -23,9 +24,8 @@ Alternative: include them converted to EUR. Conversion fixes the currency but no
 speculative swings.
 
 ### TKO before September 2023 is dropped
-Before 12 Sep 2023 the TKO ticker's history is the old WWE listing, a different company.
-
-Alternative: keep the full series with a footnote. Too easy to misread on a chart.
+Before 12 Sep 2023 the TKO ticker's history is the old WWE listing, a different company. I could
+have kept the full series with a footnote, but on a chart that's too easy to misread.
 
 ### Equal weight, rebalanced monthly
 Each month the index return is the simple average of its members' returns. The clubs' market
@@ -36,8 +36,8 @@ Alternative: value weighting, or equal weight bought once and never rebalanced (
 towards the past winners and ends up value weighted anyway).
 
 ### Everything in euros
-Prices are converted to EUR with daily Yahoo FX rates (month-end values used). One currency makes
-a multi-currency index readable. Celtic is quoted in pence, so it's divided by 100 first.
+Prices are converted to EUR with daily Yahoo FX rates (month-end values used), so the whole index
+is in one currency. Celtic is quoted in pence, so it's divided by 100 first.
 
 Alternative: average the returns in local currency. That avoids FX noise per club but the index
 level no longer corresponds to anything an investor could hold.
@@ -85,8 +85,8 @@ appraisal smoothing problem private equity and property indices have). Volatilit
 ratio calculated on them would make NBA teams look much safer than they are, so the risk table
 only covers listed series.
 
-Alternative: de-smooth the series (e.g. the Geltner method used for property indices). Not worth
-it with six data points.
+The textbook fix is to de-smooth the series (e.g. the Geltner method used for property indices),
+but with six data points it isn't worth it.
 
 ### Every statistic has its own window
 Each row in listed_index_stats.csv has its start month, end month and number of months, and
@@ -154,8 +154,9 @@ Sportico and CNBC values are compared with the Forbes edition closest in time: S
 values were republished outside the publishers' own sites are included (4 Sportico, 15 CNBC), because
 Sportico's terms forbid scraping and CNBC's full table is an embedded graphic.
 
-Alternative: skip the check. The point is to show that valuations are estimates, so a partial
-comparison with a stated sample size is better than none.
+With samples this small I thought about leaving the check out. I kept it because the point is to
+show that valuations are estimates, and a partial comparison with the sample size stated is better
+than none.
 
 ### Deal prices vs Forbes
 For each NBA control sale I divide the implied 100% valuation by the latest Forbes value for that
@@ -224,8 +225,8 @@ official budget document instead: each club's budget (total revenue) and approve
 in September, for 2024-25 and 2025-26. The audited loss figures that are shown come from the
 league's own summary of the accounts (press release, January 2026).
 
-Alternative: key the per-club accounts in by hand from the Drive folder. Worth doing if the note
-needs club-level profit and loss.
+If the note ends up needing club-level profit and loss, the fallback is to type the per-club
+accounts in by hand from the Drive folder.
 
 ### Spain and Italy: reference only
 ACB (2024-25) and LBA (2021-22) budgets come from media reports with different seasons and
@@ -239,7 +240,7 @@ SB League clubs don't publish budgets or accounts.
 
 - Survivorship: the listed index only contains clubs listed today. Clubs that delisted (AS Roma in
   2022 and any earlier) are missing from the whole history, so the index probably overstates what
-  holding listed football clubs actually returned. No adjustment is attempted.
+  holding listed football clubs actually returned. I haven't tried to adjust for it.
 - Valuations are estimates by journalists and analysts, not prices. The publisher check shows how
   far apart they can be.
 - Deal prices can include arenas or other businesses, so a deal/Forbes ratio above 1 isn't purely a

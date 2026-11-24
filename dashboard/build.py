@@ -440,7 +440,7 @@ def run():
         f'<span class="value">{esc(v)}</span><span class="context">{esc(c)}</span></li>'
         for s, w, v, c in headline_stats())
     nav_items = [(cid, subject, title) for cid, subject, title, _, _ in chapters]
-    nav_items += [("sources", "none", "Sources"), ("caveats", "none", "Caveats"), ("about", "none", "About")]
+    nav_items += [("sources", "none", "Sources"), ("caveats", "none", "Caveats")]
     contents = "".join(f'<li class="{s}"><a href="#{cid}"><span class="dot" aria-hidden="true"></span>{esc(t)}</a></li>'
                        for cid, s, t in nav_items)
     body = "".join(
@@ -448,10 +448,12 @@ def run():
         + "".join(parts) + "</section>"
         for cid, subject, title, lede, parts in chapters)
 
-    on_github = link(REPO_URL, "on GitHub") if REPO_URL else "on GitHub"
     rail_links = ""
     share_tags = ""
+    repo_note = ""
     if REPO_URL:
+        repo_note = (f' The code, the data and the {link(REPO_URL + "/blob/main/methodology.md", "methodology")}'
+                     f' are {link(REPO_URL, "on GitHub")}.')
         rail_links = (f'<p class="rail-links">{link(REPO_URL, "Code and data")}<br>'
                       f'{link(REPO_URL + "/blob/main/methodology.md", "Methodology")}</p>')
         share_tags = (f'<meta property="og:url" content="{pages_url()}">\n'
@@ -563,7 +565,6 @@ def run():
   .notes {{ max-width: 40em; margin: 20px 0 0; padding-left: 1.3em; color: var(--ink-2); }}
   .notes li {{ margin-bottom: 10px; padding-left: 4px; }}
   ol.notes li::marker {{ font-weight: 700; color: var(--muted); }}
-  #about p {{ max-width: 36em; margin: 16px 0 0; }}
   footer {{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; margin-top: 88px;
             padding-top: 16px; border-top: 1px solid var(--rule); font-size: 0.82rem; color: var(--muted); }}
   footer span:first-child {{ flex: 1 1 30em; max-width: 46em; }}
@@ -601,7 +602,7 @@ def run():
 <h1>European Basketball Franchise Valuation Tracker</h1>
 <p class="dek">How NBA franchises, EuroLeague clubs and listed football clubs are valued, and how those values
 compare with the stock market. Built from public sources; every figure says where its numbers come from.</p>
-<p class="byline">By {esc(AUTHOR)}. Market data to {data_date()}; share prices update on the 3rd of each month.</p>
+<p class="byline">By {esc(AUTHOR)}. Market data to {data_date()}; share prices update on the 3rd of each month.{repo_note}</p>
 <p class="colour-key"><span class="swatch football"></span>Blue is listed European football,
 <span class="swatch nba"></span>orange the NBA and US sports companies,
 <span class="swatch euro"></span>teal European basketball and
@@ -614,11 +615,6 @@ compare with the stock market. Built from public sources; every figure says wher
 {body}
 <section id="sources"><h2>Sources</h2>{sources()}</section>
 <section id="caveats"><h2>Caveats</h2>{caveats()}</section>
-<section id="about"><h2>About</h2>
-<p>I'm {esc(AUTHOR)}, a final-year BSc Economics and Finance student, and this is a personal project I started
-in July 2026. A Python pipeline downloads the public data, cleans it and rebuilds this page; the code, the data
-and a log of every method choice (with the alternative I didn't take) are {on_github}.</p>
-</section>
 <footer><span>Python: requests, BeautifulSoup, pandas, yfinance, plotly. Share prices refresh on the 3rd of each
 month through GitHub Actions; the yearly figures are updated by hand.</span><span>Not investment advice.</span></footer>
 </main>
