@@ -1,15 +1,11 @@
-"""EuroLeague club budget/payroll figures from BasketNews annual research articles.
+"""EuroLeague club budgets and payrolls from BasketNews' yearly research articles.
 
-Each article carries an HTML table. Column headers differ by season, so headers
-are mapped to a controlled figure_type vocabulary. Per methodology.md ruling,
-payroll and total-budget figures stay in separate rows (figure_type column) and
-are never merged into one series.
+Each article has an HTML table, but the column names change from year to
+year, so they're mapped onto a small set of figure types. Payroll and total
+budget stay as separate rows (figure_type) and are never treated as one series.
 
-Seasons 2022-23 and 2023-24 had no single roundup article; those go in the
-manual template (data/manual/) instead.
-
-Note: BasketNews serves 403 to the default python-requests user agent; the
-custom UA in common.py is required.
+I couldn't find a single roundup article for 2022-23 or 2023-24, so those
+seasons are missing.
 """
 
 import re
@@ -37,7 +33,7 @@ ARTICLES = [
     },
 ]
 
-# header text (lowercased) -> figure_type
+# column header (lowercase) -> figure_type
 HEADER_TO_FIGURE_TYPE = {
     "total budget (gross)": "total_budget_gross",
     "players/coaches salaries (net)": "payroll_net",
@@ -45,7 +41,7 @@ HEADER_TO_FIGURE_TYPE = {
     "team payroll (players net)": "payroll_net",
 }
 
-# e.g. "€45M", "€26.5-27.0M", "€8-8.5M"; first number, optional range end
+# matches "€45M", "€26.5-27.0M", "€8-8.5M": a number and an optional range end
 AMOUNT_PATTERN = re.compile(r"€\s*([\d.,]+)\s*(?:-\s*([\d.,]+))?\s*M", re.IGNORECASE)
 
 OUTPUT_FILE = common.DATA_DIR / "euroleague_budgets.csv"
@@ -62,14 +58,15 @@ def parse_amount(cell_text):
 
 
 def row_cells(tr):
-    """Direct td/th children only: the page nests tables, and a recursive
-    find_all would make outer layout rows swallow the budget table's cells."""
+    """Text of the row's own cells. The page puts tables inside tables, so
+    without recursive=False an outer layout row would also pick up every
+    cell of the budget table inside it."""
     return [td.get_text(" ", strip=True) for td in tr.find_all(["td", "th"], recursive=False)]
 
 
 def parse_article(html, season, url, by_basketnews):
-    """Find the budget table: a header row containing 'Team' plus 'budget' or
-    'payroll', then data rows with the same number of cells."""
+    """Find the header row of the budget table, then read the data rows below
+    it until a row with a different number of cells ends the table."""
     soup = BeautifulSoup(html, "html.parser")
     all_rows = soup.find_all("tr")
 
@@ -77,8 +74,8 @@ def parse_article(html, season, url, by_basketnews):
     header_index = None
     for i, tr in enumerate(all_rows):
         texts = row_cells(tr)
-        # a real header row: one cell IS "Team" and another names a known figure
-        # column (loose "contains" matching would hit page-layout wrapper tables)
+        # the header has a cell that is exactly "Team" and a cell that is one of
+        # the known figure columns; looser matching hits the page layout tables
         has_team_cell = any(t.lower().strip() in ("team", "teams") for t in texts)
         has_figure_cell = any(t.lower().strip() in HEADER_TO_FIGURE_TYPE for t in texts)
         if has_team_cell and has_figure_cell:

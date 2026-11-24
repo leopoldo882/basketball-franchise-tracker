@@ -1,13 +1,18 @@
-"""Daily adjusted close prices for listed sports companies and benchmarks, via yfinance.
+"""Daily adjusted closing prices from Yahoo Finance (via yfinance) for the
+listed sports companies and the benchmarks.
 
-Groups (see data_inventory.md decisions, 2026-07-15):
-  eu_football — headline index members: European football clubs only.
-                Turkish club stocks excluded (methodology.md).
-  us_holdco   — separate labeled comparator line, never blended into the index.
-  benchmark   — S&P 500 (price + total return), STOXX Europe 600, MSCI Europe ETF.
+Each ticker belongs to one group:
+  eu_football  European football clubs, the headline index (Turkish clubs left out)
+  us_holdco    US sports holding companies, shown as a separate line
+  benchmark    S&P 500 (price and total return), STOXX Europe 600, MSCI Europe ETF
 
-TKO rows before its 2023-09-12 listing are dropped: earlier history on the
-ticker belongs to the legacy WWE listing (methodology.md).
+Ticker changes in 2026 (the old symbols now return only a few months of data):
+  MSGS -> MSGK    MSG Sports split off the Rangers in Oct 2026 and the Knicks
+                  company kept the history under MSGK. Yahoo books the spin-off
+                  as a 1.328 split, so the series has no artificial drop.
+  EFG.PA -> OLG.PA  Eagle Football Group renamed OL Groupe (Lyon), Oct 2026.
+
+TKO prices before 12 Sep 2023 belong to the old WWE listing, so they are dropped.
 """
 
 import pandas as pd
@@ -26,11 +31,11 @@ TICKERS = {
     "SLBEN.LS": "eu_football",
     "FCP.LS": "eu_football",
     "SCP.LS": "eu_football",
-    "EFG.PA": "eu_football",
+    "OLG.PA": "eu_football",
     "PARKEN.CO": "eu_football",
     "BIF.CO": "eu_football",
-    # US sports holdcos (separate comparator line)
-    "MSGS": "us_holdco",
+    # US sports holding companies (separate comparison line)
+    "MSGK": "us_holdco",
     "BATRA": "us_holdco",
     "TKO": "us_holdco",
     "MSGE": "us_holdco",

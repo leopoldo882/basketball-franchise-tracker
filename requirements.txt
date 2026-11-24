@@ -1,13 +1,11 @@
-# Versions are pinned exactly so the monthly CI build and local builds produce
-# identical output. An unpinned plotly upgrade once changed both the embedded
-# chart JSON and the plotly.js CDN version the page loads, which would make CI
-# and local rebuilds overwrite each other's docs/index.html on every run.
+# Exact versions, so the monthly GitHub Action and a local run build the same
+# docs/index.html. A plotly upgrade changes the chart JSON and the plotly.js
+# version the page loads, and then CI and local runs keep overwriting each other.
 requests==2.32.5
 beautifulsoup4==4.15.0
 pandas==2.3.3
 yfinance==1.2.0
 plotly==6.9.0
 
-# Transitive (pulled by pandas/plotly) but pinned too: numeric formatting in the
-# CSVs and chart JSON depends on it.
+# installed anyway by pandas/plotly, pinned because it affects number formatting
 numpy==2.0.2

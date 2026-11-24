@@ -1,48 +1,54 @@
-# Manual-entry CSVs — column documentation
+# Hand-entered data
 
-These files hold figures keyed in by hand from sources that can't or shouldn't be
-scraped (paywalls, ToS restrictions, PDFs, prose articles — see data_inventory.md).
-`run_pipeline.py` validates each file's columns, numeric fields, and duplicate keys.
+Figures typed in from sources that can't or shouldn't be scraped (paywalls, terms of use, PDFs,
+numbers buried in article text). See data_inventory.md for why each source is manual.
+`run_pipeline.py` checks each file's columns, number fields and duplicate rows on every run.
 
-Conventions: monetary amounts in millions (`_usd_m` / `_eur_m`), plain numbers
-(45 = 45 million, 10000 = 10 billion). Every row needs a `source_url`. Blank cells
-are fine where a figure is unknown.
+Money is in millions (`_usd_m`, `_eur_m`): 45 means 45 million, 10000 means 10 billion. Every row
+has a `source_url`. Leave a cell blank if the figure isn't known.
 
 ## nba_valuations_manual.csv
-Forbes NBA list rows that aren't auto-scraped: the 2024 and 2025 editions, plus any
-Wayback snapshot year (2016/2019/2022) the parser reports as failed.
-- `list_year` — Forbes edition year (2025 = list published Oct 2025)
-- `team`, `rank` — as printed in the list
-- `value_usd_m`, `revenue_usd_m` — franchise value and revenue, $M
-- `source` — use `forbes_manual`
-- `source_url` — the Forbes article the row was keyed from
+Forbes NBA rows for any edition without an archived copy (see collectors/forbes_wayback.py).
+Empty at the moment: every edition used is in the archive.
+- `list_year`: Forbes edition (2025 = list published October 2025)
+- `team`, `rank`: as printed
+- `value_usd_m`, `revenue_usd_m`: team value and revenue
+- `source`: `forbes_manual`
+- `source_url`: the Forbes article
 
 ## publisher_divergence.csv
-Latest-year cross-check of Forbes vs Sportico vs CNBC valuations (per-team, $M).
-Feeds one caveat stat ("publishers disagree by X% on average"), not a panel.
-- `publisher` — `sportico` or `cnbc` (Forbes side comes from nba_valuations.csv)
+Sportico and CNBC values for the teams whose figures were republished elsewhere, for the check
+against Forbes. Not a full list for either publisher.
+- `publisher`: `sportico` or `cnbc`
+- `list_year`: that publisher's edition (Sportico 2026 = Oct 2026, CNBC 2026 = Feb 2026)
+- `source_url`: the page the value was copied from (Bleacher Report, NBC Chicago)
 
 ## lnb_dnccg.csv
-Headline figures from the LNB's DNCCG annual reports (official PDFs — keyed by
-hand, no PDF dependency). Scope: Betclic Élite only, 2023-24 and 2024-25 accounts.
-- `season` — e.g. `2023-24`
-- `revenue_eur_m`, `payroll_eur_m`, `net_result_eur_m` — €M, negative = loss
+French top division (Betclic Élite) figures from the league's financial watchdog.
+- `season`: e.g. `2025-26`
+- `club`: club name, or a group such as `Betclic ELITE (all clubs)` for league totals
+- `figure_type`:
+  - `budget_total`: budget filed in September, defined by the league as total revenue
+  - `payroll_dnccg`: gross payroll for players and coaches approved by the DNCCG
+  - `operating_result`, `net_result`: from the audited accounts (negative = loss)
+- `amount_eur_m`
 
 ## euroleague_valuations.csv
-JB Capital valuation figures, keyed from the official EuroLeague press release
-(March 2026). Pre-seeded. Add club-level rows if the underlying report PDF is found.
-- `entity_type` — `league`, `clubs_aggregate`, `combined`, `club_range`, or `club`
-- `value_eur_m_low/high` — equal when a single figure was reported
-- `basis` — one line on what the number represents
+JB Capital's valuation, from the EuroLeague press release of March 2026.
+- `entity_type`: `league`, `clubs_aggregate`, `combined`, `club_range` or `club`
+- `value_eur_m_low`, `value_eur_m_high`: the same number when a single figure was given
+- `basis`: one line on what the number is
 
 ## transactions.csv
-Precedent deals in basketball and comparable sports. Pre-seeded with the deals
-confirmed during Phase 0 recon; rows with empty `source_url` or figures marked
-"verify" in `notes` need checking before use in analysis.
-- `buyer_type` — `individual`, `private equity`, `sovereign-linked`, `mixed`
-- `stake_pct` — blank if undisclosed; `control` — `y`/`n`
-- `price_usd_m` — price paid for the stake; `implied_valuation_usd_m` — 100% valuation
+NBA deals and a few European basketball events.
+- `date`: month the price was agreed (YYYY-MM), or just the year if that's all that's known
+- `buyer_type`: `individual`, `private equity`, `sovereign-linked` or `mixed`
+- `stake_pct`: blank if not disclosed; `control`: `y` or `n`
+- `price_usd_m`: price paid for the stake, if reported
+- `implied_valuation_usd_m`: value of 100% of the team implied by the deal
+- `notes`: approval status, payment stages and anything else needed to read the row
 
 ## acb_budgets.csv / lba_budgets.csv
-Headline club budgets from Spanish/Italian media reports (no official dataset).
-- `figure_type` — `total_budget` or `revenue`, as described by the source
+Spanish and Italian club budgets from media reports. Different seasons and definitions from the
+other files, so reference only.
+- `figure_type`: `total_budget` or `revenue`, whichever the source says

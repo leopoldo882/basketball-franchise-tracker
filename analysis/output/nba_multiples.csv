@@ -89,3 +89,93 @@ list_year,team,rank,value_usd_m,revenue_usd_m,source,value_rev_multiple
 2022,Toronto Raptors,10,2475,194.0,forbes_wayback,12.76
 2022,Utah Jazz,19,1750,262.0,forbes_wayback,6.68
 2022,Washington Wizards,16,1925,213.0,forbes_wayback,9.04
+2024,Atlanta Hawks,19,3800,353.0,forbes_wayback,10.76
+2024,Boston Celtics,4,6000,457.0,forbes_wayback,13.13
+2024,Brooklyn Nets,8,4800,381.0,forbes_wayback,12.6
+2024,Charlotte Hornets,26,3300,308.0,forbes_wayback,10.71
+2024,Chicago Bulls,6,5000,414.0,forbes_wayback,12.08
+2024,Cleveland Cavaliers,16,3950,391.0,forbes_wayback,10.1
+2024,Dallas Mavericks,9,4700,437.0,forbes_wayback,10.76
+2024,Denver Nuggets,17,3900,356.0,forbes_wayback,10.96
+2024,Detroit Pistons,25,3400,305.0,forbes_wayback,11.15
+2024,Golden State Warriors,1,8800,800.0,forbes_wayback,11.0
+2024,Houston Rockets,7,4900,416.0,forbes_wayback,11.78
+2024,Indiana Pacers,22,3600,320.0,forbes_wayback,11.25
+2024,Los Angeles Clippers,5,5500,353.0,forbes_wayback,15.58
+2024,Los Angeles Lakers,3,7100,522.0,forbes_wayback,13.6
+2024,Memphis Grizzlies,30,3000,291.0,forbes_wayback,10.31
+2024,Miami Heat,13,4250,373.0,forbes_wayback,11.39
+2024,Milwaukee Bucks,15,4000,333.0,forbes_wayback,12.01
+2024,Minnesota Timberwolves,28,3100,305.0,forbes_wayback,10.16
+2024,New Orleans Pelicans,29,3050,272.0,forbes_wayback,11.21
+2024,New York Knicks,2,7500,543.0,forbes_wayback,13.81
+2024,Oklahoma City Thunder,21,3650,320.0,forbes_wayback,11.41
+2024,Orlando Magic,27,3200,285.0,forbes_wayback,11.23
+2024,Philadelphia 76ers,10,4600,396.0,forbes_wayback,11.62
+2024,Phoenix Suns,12,4300,369.0,forbes_wayback,11.65
+2024,Portland Trail Blazers,24,3500,335.0,forbes_wayback,10.45
+2024,Sacramento Kings,20,3700,320.0,forbes_wayback,11.56
+2024,San Antonio Spurs,18,3850,363.0,forbes_wayback,10.61
+2024,Toronto Raptors,11,4400,341.0,forbes_wayback,12.9
+2024,Utah Jazz,23,3550,318.0,forbes_wayback,11.16
+2024,Washington Wizards,14,4100,362.0,forbes_wayback,11.33
+2025,Atlanta Hawks,14,5000,477.0,forbes_wayback,10.48
+2025,Boston Celtics,5,6700,458.0,forbes_wayback,14.63
+2025,Brooklyn Nets,9,5600,402.0,forbes_wayback,13.93
+2025,Charlotte Hornets,26,3800,328.0,forbes_wayback,11.59
+2025,Chicago Bulls,6,6000,434.0,forbes_wayback,13.82
+2025,Cleveland Cavaliers,15,4800,440.0,forbes_wayback,10.91
+2025,Dallas Mavericks,13,5100,407.0,forbes_wayback,12.53
+2025,Denver Nuggets,17,4600,364.0,forbes_wayback,12.64
+2025,Detroit Pistons,27,3650,321.0,forbes_wayback,11.37
+2025,Golden State Warriors,1,11000,880.0,forbes_wayback,12.5
+2025,Houston Rockets,7,5900,467.0,forbes_wayback,12.63
+2025,Indiana Pacers,23,4200,342.0,forbes_wayback,12.28
+2025,Los Angeles Clippers,4,7500,569.0,forbes_wayback,13.18
+2025,Los Angeles Lakers,2,10000,551.0,forbes_wayback,18.15
+2025,Memphis Grizzlies,30,3500,306.0,forbes_wayback,11.44
+2025,Miami Heat,8,5700,417.0,forbes_wayback,13.67
+2025,Milwaukee Bucks,21,4300,355.0,forbes_wayback,12.11
+2025,Minnesota Timberwolves,28,3600,320.0,forbes_wayback,11.25
+2025,New Orleans Pelicans,29,3550,302.0,forbes_wayback,11.75
+2025,New York Knicks,3,9750,532.0,forbes_wayback,18.33
+2025,Oklahoma City Thunder,20,4350,357.0,forbes_wayback,12.18
+2025,Orlando Magic,25,3900,318.0,forbes_wayback,12.26
+2025,Philadelphia 76ers,10,5450,472.0,forbes_wayback,11.55
+2025,Phoenix Suns,11,5425,455.0,forbes_wayback,11.92
+2025,Portland Trail Blazers,22,4250,361.0,forbes_wayback,11.77
+2025,Sacramento Kings,18,4450,354.0,forbes_wayback,12.57
+2025,San Antonio Spurs,19,4400,401.0,forbes_wayback,10.97
+2025,Toronto Raptors,12,5400,380.0,forbes_wayback,14.21
+2025,Utah Jazz,24,4100,340.0,forbes_wayback,12.06
+2025,Washington Wizards,16,4700,389.0,forbes_wayback,12.08
+2026,Atlanta Hawks,14,5750,528.0,forbes_wayback,10.89
+2026,Boston Celtics,5,7000,511.0,forbes_wayback,13.7
+2026,Brooklyn Nets,8,6500,467.0,forbes_wayback,13.92
+2026,Charlotte Hornets,25,4400,367.0,forbes_wayback,11.99
+2026,Chicago Bulls,6,6700,482.0,forbes_wayback,13.9
+2026,Cleveland Cavaliers,16,5500,512.0,forbes_wayback,10.74
+2026,Dallas Mavericks,13,5800,407.0,forbes_wayback,14.25
+2026,Denver Nuggets,18,5150,408.0,forbes_wayback,12.62
+2026,Detroit Pistons,27,4200,362.0,forbes_wayback,11.6
+2026,Golden State Warriors,1,13500,942.0,forbes_wayback,14.33
+2026,Houston Rockets,7,6600,523.0,forbes_wayback,12.62
+2026,Indiana Pacers,23,4550,369.0,forbes_wayback,12.33
+2026,Los Angeles Clippers,4,7800,602.0,forbes_wayback,12.96
+2026,Los Angeles Lakers,3,12500,626.0,forbes_wayback,19.97
+2026,Memphis Grizzlies,30,4000,332.0,forbes_wayback,12.05
+2026,Miami Heat,10,6100,414.0,forbes_wayback,14.73
+2026,Milwaukee Bucks,22,4600,385.0,forbes_wayback,11.95
+2026,Minnesota Timberwolves,28,4180,358.0,forbes_wayback,11.68
+2026,New Orleans Pelicans,29,4100,348.0,forbes_wayback,11.78
+2026,New York Knicks,2,12600,640.0,forbes_wayback,19.69
+2026,Oklahoma City Thunder,19,4900,392.0,forbes_wayback,12.5
+2026,Orlando Magic,24,4500,365.0,forbes_wayback,12.33
+2026,Philadelphia 76ers,9,6400,529.0,forbes_wayback,12.1
+2026,Phoenix Suns,11,6000,545.0,forbes_wayback,11.01
+2026,Portland Trail Blazers,26,4300,412.0,forbes_wayback,10.44
+2026,Sacramento Kings,21,4700,413.0,forbes_wayback,11.38
+2026,San Antonio Spurs,15,5600,474.0,forbes_wayback,11.81
+2026,Toronto Raptors,12,5900,423.0,forbes_wayback,13.95
+2026,Utah Jazz,20,4750,394.0,forbes_wayback,12.06
+2026,Washington Wizards,17,5200,447.0,forbes_wayback,11.63

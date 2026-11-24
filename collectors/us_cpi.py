@@ -1,8 +1,7 @@
-"""US CPI (CPIAUCSL, monthly) from FRED's public CSV endpoint.
+"""Monthly US consumer prices (CPIAUCSL) from FRED's public CSV download.
 
-Used for exactly one number: the real-terms NBA valuation CAGR in the
-note-support facts sheet (methodology.md ruling: everything else is nominal).
-FRED serves this as a plain open CSV; refreshed on every run.
+Only used for one number: the inflation-adjusted NBA growth rate in the
+facts sheet. Everything on the dashboard is in nominal terms.
 """
 
 import io

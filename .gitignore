@@ -1,4 +1,4 @@
-# local virtualenvs
+# virtualenvs
 venv/
 .venv/
 
@@ -9,5 +9,5 @@ __pycache__/
 # macOS
 .DS_Store
 
-# cached raw HTML/XML from sources — copyrighted content, local only, never pushed
+# cached copies of scraped pages: other people's copyrighted content, keep local
 data/raw/

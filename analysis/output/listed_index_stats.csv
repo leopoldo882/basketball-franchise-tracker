@@ -1,31 +1,31 @@
 series,metric,value,window_start,window_end,n_months,note
-eu_football,cumulative_return,1.8147,2004-02,2026-07,270,
-eu_football,cagr,0.0471,2004-02,2026-07,270,
-eu_football,max_drawdown,-0.6352,2004-02,2026-07,270,
-eu_football_fixed12,cumulative_return,4.5314,2012-09,2026-07,167,
-eu_football_fixed12,cagr,0.1308,2012-09,2026-07,167,
-eu_football_fixed12,max_drawdown,-0.2986,2012-09,2026-07,167,
-us_holdco,cumulative_return,4.0088,2015-10,2026-07,130,
-us_holdco,cagr,0.1604,2015-10,2026-07,130,
-us_holdco,max_drawdown,-0.3606,2015-10,2026-07,130,
-sp500tr_eur,cumulative_return,10.0123,2004-02,2026-07,270,
-sp500tr_eur,cagr,0.1125,2004-02,2026-07,270,
-sp500tr_eur,max_drawdown,-0.4694,2004-02,2026-07,270,
-ieur_eur,cumulative_return,1.6052,2014-07,2026-07,145,"investable ETF TR proxy, exists 2014+"
-ieur_eur,cagr,0.0825,2014-07,2026-07,145,"investable ETF TR proxy, exists 2014+"
-ieur_eur,max_drawdown,-0.2449,2014-07,2026-07,145,"investable ETF TR proxy, exists 2014+"
-stoxx_eur,cumulative_return,1.6966,2004-05,2026-07,267,"price-only index, not total return"
-stoxx_eur,cagr,0.0456,2004-05,2026-07,267,"price-only index, not total return"
-stoxx_eur,max_drawdown,-0.5641,2004-05,2026-07,267,"price-only index, not total return"
-eu_football_common_window,cumulative_return,4.5314,2012-09,2026-07,167,staggered composition over the fixed-12 window (window vs composition split)
-eu_football_common_window,cagr,0.1308,2012-09,2026-07,167,staggered composition over the fixed-12 window (window vs composition split)
-eu_football_common_window,max_drawdown,-0.2986,2012-09,2026-07,167,staggered composition over the fixed-12 window (window vs composition split)
-eu_football,correlation_vs_sp500tr_eur,0.4411,2004-02,2026-07,270,
-eu_football,correlation_vs_ieur_eur,0.587,2014-07,2026-07,145,"investable ETF TR proxy, exists 2014+"
-eu_football,correlation_vs_stoxx_eur,0.5614,2004-05,2026-07,267,"price-only index, not total return"
-eu_football_fixed12,correlation_vs_sp500tr_eur,0.4656,2012-09,2026-07,167,
-eu_football_fixed12,correlation_vs_ieur_eur,0.587,2014-07,2026-07,145,"investable ETF TR proxy, exists 2014+"
-eu_football_fixed12,correlation_vs_stoxx_eur,0.5442,2012-09,2026-07,167,"price-only index, not total return"
-us_holdco,correlation_vs_sp500tr_eur,0.5819,2015-10,2026-07,130,
-us_holdco,correlation_vs_ieur_eur,0.5469,2015-10,2026-07,130,"investable ETF TR proxy, exists 2014+"
-us_holdco,correlation_vs_stoxx_eur,0.5509,2015-10,2026-07,130,"price-only index, not total return"
+eu_football,cumulative_return,1.6112,2004-02,2026-11,274,
+eu_football,cagr,0.0429,2004-02,2026-11,274,
+eu_football,max_drawdown,-0.6352,2004-02,2026-11,274,
+eu_football_fixed12,cumulative_return,4.1316,2012-09,2026-11,171,
+eu_football_fixed12,cagr,0.1216,2012-09,2026-11,171,
+eu_football_fixed12,max_drawdown,-0.2986,2012-09,2026-11,171,
+us_holdco,cumulative_return,4.4473,2015-10,2026-11,134,
+us_holdco,cagr,0.1639,2015-10,2026-11,134,
+us_holdco,max_drawdown,-0.3606,2015-10,2026-11,134,
+sp500tr_eur,cumulative_return,10.2409,2004-02,2026-11,274,
+sp500tr_eur,cagr,0.1118,2004-02,2026-11,274,
+sp500tr_eur,max_drawdown,-0.4694,2004-02,2026-11,274,
+ieur_eur,cumulative_return,1.5853,2014-07,2026-11,149,"ETF used as a total return proxy, exists from 2014"
+ieur_eur,cagr,0.0795,2014-07,2026-11,149,"ETF used as a total return proxy, exists from 2014"
+ieur_eur,max_drawdown,-0.2449,2014-07,2026-11,149,"ETF used as a total return proxy, exists from 2014"
+stoxx_eur,cumulative_return,1.6172,2004-05,2026-11,271,"price-only index, not total return"
+stoxx_eur,cagr,0.0435,2004-05,2026-11,271,"price-only index, not total return"
+stoxx_eur,max_drawdown,-0.5641,2004-05,2026-11,271,"price-only index, not total return"
+eu_football_common_window,cumulative_return,4.1316,2012-09,2026-11,171,staggered index measured over the fixed-12 months
+eu_football_common_window,cagr,0.1216,2012-09,2026-11,171,staggered index measured over the fixed-12 months
+eu_football_common_window,max_drawdown,-0.2986,2012-09,2026-11,171,staggered index measured over the fixed-12 months
+eu_football,correlation_vs_sp500tr_eur,0.4397,2004-02,2026-11,274,
+eu_football,correlation_vs_ieur_eur,0.5905,2014-07,2026-11,149,"ETF used as a total return proxy, exists from 2014"
+eu_football,correlation_vs_stoxx_eur,0.5646,2004-05,2026-11,271,"price-only index, not total return"
+eu_football_fixed12,correlation_vs_sp500tr_eur,0.4637,2012-09,2026-11,171,
+eu_football_fixed12,correlation_vs_ieur_eur,0.5905,2014-07,2026-11,149,"ETF used as a total return proxy, exists from 2014"
+eu_football_fixed12,correlation_vs_stoxx_eur,0.5504,2012-09,2026-11,171,"price-only index, not total return"
+us_holdco,correlation_vs_sp500tr_eur,0.5751,2015-10,2026-11,134,
+us_holdco,correlation_vs_ieur_eur,0.5334,2015-10,2026-11,134,"ETF used as a total return proxy, exists from 2014"
+us_holdco,correlation_vs_stoxx_eur,0.5339,2015-10,2026-11,134,"price-only index, not total return"

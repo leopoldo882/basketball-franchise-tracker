@@ -5,10 +5,16 @@ NBA,2019,median_value_rev_multiple,6.2,x revenue,https://web.archive.org/web/201
 NBA,2019,league_avg_value,1868.3,USD m,https://web.archive.org/web/20190401155819/https://www.forbes.com/ajax/list/data?year=2019&uri=nba-valuations&type=organization
 NBA,2022,median_value_rev_multiple,9.49,x revenue,https://web.archive.org/web/20211109185923/https://www.forbes.com/ajax/list/data?year=2022&uri=nba-valuations&type=organization
 NBA,2022,league_avg_value,2480.2,USD m,https://web.archive.org/web/20211109185923/https://www.forbes.com/ajax/list/data?year=2022&uri=nba-valuations&type=organization
+NBA,2024,median_value_rev_multiple,11.29,x revenue,https://web.archive.org/web/20250702165507/https://www.forbes.com/ajax/list/data?year=2024&uri=nba-valuations&type=organization
+NBA,2024,league_avg_value,4416.7,USD m,https://web.archive.org/web/20250702165507/https://www.forbes.com/ajax/list/data?year=2024&uri=nba-valuations&type=organization
+NBA,2025,median_value_rev_multiple,12.22,x revenue,https://web.archive.org/web/20261021083103/https://www.forbes.com/ajax/list/data?year=2025&uri=nba-valuations&type=organization
+NBA,2025,league_avg_value,5355.8,USD m,https://web.archive.org/web/20261021083103/https://www.forbes.com/ajax/list/data?year=2025&uri=nba-valuations&type=organization
+NBA,2026,median_value_rev_multiple,12.21,x revenue,https://web.archive.org/web/20261021083152/https://www.forbes.com/ajax/list/data?year=2026&uri=nba-valuations&type=organization
+NBA,2026,league_avg_value,6126.0,USD m,https://web.archive.org/web/20261021083152/https://www.forbes.com/ajax/list/data?year=2026&uri=nba-valuations&type=organization
 EuroLeague,2025-26,jb_capital_league,1410,EUR m,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
 EuroLeague,2026-27,jb_capital_league,1640,EUR m,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
 EuroLeague,2025-26,jb_capital_clubs_aggregate,1800,EUR m,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
 EuroLeague,2025-26,jb_capital_combined,3200,EUR m,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
 EuroLeague,2026-27,jb_capital_combined,4300,EUR m,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
 EuroLeague,2025-26,jb_capital_club_range,60-320,EUR m,https://www.euroleaguebasketball.net/news/euroleague-and-clubs-valued-at-over-3-2-billion-according-to-jb-capital/
-EuroLeague,2025-26,value_rev_multiple,n/a,,no club revenue base published in the JB Capital press release
+EuroLeague,2025-26,value_rev_multiple,n/a,,no revenue base published in the JB Capital press release

@@ -1,4 +1,4 @@
-"""Shared helpers: polite HTTP fetching with a local cache, and the team-name mapping."""
+"""Shared helpers: a cached, rate-limited GET and the team-name mapping."""
 
 import csv
 import pathlib
@@ -11,15 +11,17 @@ RAW_DIR = PROJECT_ROOT / "data" / "raw"
 DATA_DIR = PROJECT_ROOT / "data"
 MAPPING_FILE = PROJECT_ROOT / "data" / "mappings" / "team_names.csv"
 
-USER_AGENT = "franchise-tracker/0.1 (student research project)"
+# BasketNews returns 403 to the default python-requests user agent, so every
+# request identifies the project instead.
+USER_AGENT = "basketball-franchise-tracker/1.0 (student research project)"
 REQUEST_DELAY_SECONDS = 3
 
 
 def polite_get(url, cache_name):
-    """Fetch a URL once and cache the body in data/raw/.
+    """Download a page once and keep a copy in data/raw/.
 
-    Re-runs read the cache instead of hitting the site again. The delay runs
-    before every real network request so consecutive fetches are spaced out.
+    If the cached copy exists it is returned straight away, so re-running the
+    parsers never hits the site again. Real requests wait 3 seconds first.
     """
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     cache_file = RAW_DIR / cache_name
@@ -34,10 +36,8 @@ def polite_get(url, cache_name):
 
 
 def load_team_mapping():
-    """Return two lookup dicts from data/mappings/team_names.csv:
-
-    by_api_code:  euroleague_api_code -> canonical_name
-    by_basketnews: basketnews_name    -> canonical_name
+    """Read data/mappings/team_names.csv into two dicts:
+    EuroLeague API code -> canonical name, and BasketNews name -> canonical name.
     """
     by_api_code = {}
     by_basketnews = {}

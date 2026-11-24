@@ -1,13 +1,17 @@
-"""NBA valuations panel: Forbes list data for 2016 / 2019 / 2022 from the
-Wayback Machine, merged with manually keyed rows (2024 + 2025 editions).
+"""Forbes NBA team valuations (value and revenue for all 30 teams).
 
-The Forbes list page itself was JavaScript-rendered, so archived page HTML is
-an empty shell. But the Wayback Machine also archived the JSON endpoint the
-page loaded its data from (found via the Wayback CDX index):
+The Forbes list page builds itself with JavaScript, so an archived copy of the
+page is empty. The data comes from a JSON endpoint the page calls:
+
     forbes.com/ajax/list/data?year=YYYY&uri=nba-valuations&type=organization
-Each capture is the full 30-team list with value and revenue. Snapshot
-timestamps are pinned below so the pipeline is reproducible; the `id_` flag
-in the URL returns the original response bytes without Wayback banners.
+
+and the Wayback Machine has archived that endpoint for most years. I found the
+captures through the Wayback CDX index and pinned the timestamps below so the
+same run always gets the same data. The "id_" in the URL asks Wayback for the
+original response without its toolbar.
+
+Any year with no usable capture can be typed into
+data/manual/nba_valuations_manual.csv instead; those rows are appended.
 """
 
 import json
@@ -16,11 +20,17 @@ import pandas as pd
 
 from . import common
 
-# list edition year -> pinned Wayback capture timestamp (verified 200, application/json)
+# Forbes edition -> Wayback capture timestamp.
+# Edition labels follow Forbes: 2016 and 2019 lists came out in February of
+# that year, the 2022 list in October 2021, the 2024-2026 lists in October of
+# the same year. I checked each capture against the published Warriors value.
 ARCHIVED_CAPTURES = {
     2016: "20180210041436",
     2019: "20190401155819",
     2022: "20211109185923",
+    2024: "20250702165507",
+    2025: "20261021083103",
+    2026: "20261021083152",
 }
 
 FETCH_URL = ("https://web.archive.org/web/{ts}id_/https://www.forbes.com/"
@@ -51,8 +61,10 @@ def run():
             })
 
     manual = pd.read_csv(MANUAL_FILE)
-    frames = [pd.DataFrame(rows)] + ([manual] if len(manual) else [])
+    frames = [pd.DataFrame(rows)]
+    if len(manual) > 0:
+        frames.append(manual)
     combined = pd.concat(frames, ignore_index=True)
     combined.to_csv(OUTPUT_FILE, index=False)
-    print(f"forbes_wayback: {len(rows)} scraped + {len(manual)} manual rows -> {OUTPUT_FILE.name}")
+    print(f"forbes_wayback: {len(rows)} archived + {len(manual)} manual rows -> {OUTPUT_FILE.name}")
     return combined

@@ -1,8 +1,9 @@
-"""EuroLeague regular-season standings from the official open XML API.
+"""EuroLeague regular-season standings from the league's open XML API.
 
-Endpoint: https://api-live.euroleague.net/v1/standings?seasonCode=EYYYY
-No API key needed. Regular-season standings only (methodology.md ruling:
-consistent basis across seasons, never post-playoff placements).
+https://api-live.euroleague.net/v1/standings?seasonCode=EYYYY (no key needed)
+
+Only the regular season is used, never playoff results, so every season is
+measured the same way (see methodology.md).
 """
 
 import xml.etree.ElementTree as ET
@@ -11,7 +12,7 @@ import pandas as pd
 
 from . import common
 
-# EYYYY code -> human season label
+# API season code -> season label used everywhere else
 SEASONS = {
     "E2021": "2021-22",
     "E2022": "2022-23",
@@ -25,7 +26,7 @@ OUTPUT_FILE = common.DATA_DIR / "euroleague_standings.csv"
 
 
 def pick_regular_season_group(root):
-    """The XML holds one <group> per phase; take the regular season one."""
+    """The XML has one <group> per phase of the season; return the regular season."""
     for group in root.findall("group"):
         if group.get("round") == "RS" or "Regular" in (group.get("name") or ""):
             return group

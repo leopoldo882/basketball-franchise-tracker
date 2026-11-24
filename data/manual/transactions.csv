@@ -1,13 +1,15 @@
 date,league,team,buyer,buyer_type,stake_pct,control,price_usd_m,implied_valuation_usd_m,source_url,notes
-2025-06,NBA,Los Angeles Lakers,Mark Walter,individual/TWG Global,,y,,10000,https://www.sportico.com/business/team-sales/2025/los-angeles-lakers-sale-mark-walter-nba-1234875227/,Buss family retains ~15%; approved by NBA owners
-2025,NBA,Boston Celtics,Bill Chisholm group,individual+PE,51,y,,6100,https://www.espn.com/nba/story/_/id/45969002/nba-approves-celtics-sale-record-61-billion-valuation,Full control by 2028 at valuation up to ~7300
-2025,NBA,Boston Celtics,Sixth Street,private equity,12.5,n,,6100,https://www.sportico.com/business/team-sales/2025/boston-celtics-sale-nba-chisholm-approved-1234862991/,Part of Chisholm takeover
-2025,NBA,Portland Trail Blazers,Tom Dundon group,individual,,y,,4250,https://www.sportico.com/,Agreed 2025; verify closing status and source link
-2023-12,NBA,Dallas Mavericks,Adelson/Dumont families,individual,,y,,3500,,Majority stake from Mark Cuban; verify exact figure and add source
-2023-02,NBA,Phoenix Suns,Mat Ishbia,individual,,y,,4000,,Includes WNBA Mercury; verify and add source
-2023,NBA,Charlotte Hornets,Plotkin/Schnall group,individual,,y,,3000,,From Michael Jordan; verify and add source
-2021,NBA,Golden State Warriors,Arctos Partners,private equity,5,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Minority stake
-2021,NBA,Sacramento Kings,Arctos Partners,private equity,17,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Minority stake
-2022,NBA,Utah Jazz,Arctos Partners,private equity,,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Undisclosed minority stake
-2026,NBA Europe,League franchise licenses,20+ bidding groups,mixed (incl. PSG/RM/Milan owners; sovereign funds),,,,1000,https://www.sportico.com/leagues/basketball/2026/nba-expansion-seattle-las-vegas-europe-fee-1234888262/,Reported bids topping $1B in select markets; 16-team league targeted Oct 2027; not a closed deal
-2025,EuroLeague,Dubai Basketball,,,,,,,,5-year wildcard entry 2025-26; no purchase price disclosed; context row
+2022-12,NBA,Phoenix Suns,Mat Ishbia group,individual,,y,,4000,https://www.espn.com/nba/story/_/id/35605269/nba-board-governors-approves-sale-suns-mercury-mat-ishbia,Includes the WNBA Mercury; approved Feb 2023
+2023-06,NBA,Charlotte Hornets,Gabe Plotkin / Rick Schnall group,individual,,y,,3000,https://www.espn.com/nba/story/_/id/38060069/nba-board-governors-approve-sale-hornets-sources-say,Majority stake from Michael Jordan who kept a minority share; approved Jul 2023
+2023-11,NBA,Dallas Mavericks,Adelson / Dumont families,individual,73,y,,3500,https://www.si.com/nba/2023/12/28/mark-cuban-majority-sale-mavericks-final-approval,Mark Cuban kept 27%; approved Dec 2023
+2025-03,NBA,Boston Celtics,Bill Chisholm group,mixed,51,y,,6100,https://www.espn.com/nba/story/_/id/45969002/nba-approves-celtics-sale-record-61-billion-valuation,Approved Aug 2025; remaining shares by 2028 at up to about 7300; Sixth Street is in the group (next row)
+2025-03,NBA,Boston Celtics,Sixth Street,private equity,12.5,n,,6100,https://www.sportico.com/business/team-sales/2025/boston-celtics-sale-nba-chisholm-approved-1234862991/,PE minority inside the Chisholm takeover
+2025-06,NBA,Los Angeles Lakers,Mark Walter,individual,,y,,10000,https://www.espn.com/nba/story/_/id/45539931/buss-family-agrees-sell-lakers-mark-walter-sources-say,Approved Oct 2025; Buss family kept about 15%
+2025-08,NBA,Portland Trail Blazers,Tom Dundon group,individual,80.1,y,,4000,https://www.hoopsrumors.com/2026/03/nba-approves-trail-blazers-sale-to-tom-dundon.html,Approved Mar 2026; 80.1% at a 4.0bn valuation then the last 19.9% at 4.5bn by Sep 2028 (reported as about 4.25bn overall)
+2026-08,NBA,Los Angeles Lakers,Josh Kushner / Bob Iger group,individual,,y,,12500,https://www.espn.com/nba/story/_/id/49590362,Walter selling 14 months after buying at 10bn; Buss family selling its last 17.8% at the same valuation; not yet approved by the NBA when entered (Nov 2026)
+2026-08,NBA,Minnesota Timberwolves,Marc Stad,individual,,y,,4500,https://www.axios.com/2026/08/21/minnesota-timberwolves-lynx-stad-lore-arod,Includes the WNBA Lynx; buys most of Marc Lore's stake; not yet approved by the NBA when entered (Nov 2026)
+2021,NBA,Golden State Warriors,Arctos Partners,private equity,5,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Minority stake; price not disclosed
+2021,NBA,Sacramento Kings,Arctos Partners,private equity,17,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Minority stake; price not disclosed
+2022,NBA,Utah Jazz,Arctos Partners,private equity,,n,,,https://frontofficesports.com/the-nbas-expanding-private-equity-footprint/,Minority stake; size and price not disclosed
+2026,NBA Europe,Franchise licences (12 target cities),20+ bidding groups,mixed,,,,1000,https://www.tsn.ca/nba/article/report-some-markets-for-nba-europe-league-receive-1b-bids-n1-49232235/,Reported bids above 1bn in the biggest markets and under 500m in some others; league targeted for 2027; bids not closed deals
+2025,EuroLeague,Dubai Basketball,,,,,,,https://www.espn.com/nba/story/_/id/46604425/inside-billion-dollar-middle-east-race-control-future-nba-international-basketball-abu-dhabi,Five-year wildcard entry from 2025-26; no price disclosed

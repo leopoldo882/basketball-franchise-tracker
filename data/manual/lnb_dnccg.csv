@@ -1,1 +1,67 @@
-season,club,revenue_eur_m,payroll_eur_m,net_result_eur_m,source_url
+season,club,figure_type,amount_eur_m,source_url
+2024-25,JL Bourg Basket,budget_total,7.806,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Elan Chalon,budget_total,6.175,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Cholet Basket,budget_total,6.389,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,JDA Dijon,budget_total,6.396,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,BCM Gravelines-Dunkerque,budget_total,5.475,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Le Mans Sarthe Basket,budget_total,6.468,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,ESSM Le Portel,budget_total,4.305,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Limoges CSP,budget_total,5.417,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,LDLC ASVEL,budget_total,16.223,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,AS Monaco Basket,budget_total,29.375,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,SLUC Nancy Basket,budget_total,5.769,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Nanterre 92,budget_total,5.586,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Paris Basketball,budget_total,18.885,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Saint-Quentin Basket-Ball,budget_total,4.256,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,SIG Strasbourg,budget_total,7.118,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Boulazac Basket Dordogne,budget_total,3.853,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,JL Bourg Basket,budget_total,8.122,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Elan Chalon,budget_total,7.188,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Cholet Basket,budget_total,6.460,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,JDA Dijon,budget_total,6.370,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,BCM Gravelines-Dunkerque,budget_total,5.858,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Le Mans Sarthe Basket,budget_total,7.510,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,ESSM Le Portel,budget_total,3.741,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Limoges CSP,budget_total,6.180,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,LDLC ASVEL,budget_total,18.689,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,AS Monaco Basket,budget_total,38.715,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,SLUC Nancy Basket,budget_total,5.836,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Nanterre 92,budget_total,5.627,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Paris Basketball,budget_total,28.883,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Saint-Quentin Basket-Ball,budget_total,4.138,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,SIG Strasbourg,budget_total,7.071,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,JL Bourg Basket,payroll_dnccg,2.359,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Elan Chalon,payroll_dnccg,1.806,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Cholet Basket,payroll_dnccg,1.612,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,JDA Dijon,payroll_dnccg,1.953,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,BCM Gravelines-Dunkerque,payroll_dnccg,1.659,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Le Mans Sarthe Basket,payroll_dnccg,1.932,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,ESSM Le Portel,payroll_dnccg,1.393,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Limoges CSP,payroll_dnccg,1.406,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,LDLC ASVEL,payroll_dnccg,5.584,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,AS Monaco Basket,payroll_dnccg,14.747,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,SLUC Nancy Basket,payroll_dnccg,1.721,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Nanterre 92,payroll_dnccg,1.662,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Paris Basketball,payroll_dnccg,5.625,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Saint-Quentin Basket-Ball,payroll_dnccg,1.688,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,SIG Strasbourg,payroll_dnccg,1.941,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Boulazac Basket Dordogne,payroll_dnccg,1.242,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,JL Bourg Basket,payroll_dnccg,2.300,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Elan Chalon,payroll_dnccg,2.034,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Cholet Basket,payroll_dnccg,1.631,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,JDA Dijon,payroll_dnccg,1.965,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,BCM Gravelines-Dunkerque,payroll_dnccg,1.778,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Le Mans Sarthe Basket,payroll_dnccg,2.282,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,ESSM Le Portel,payroll_dnccg,0.968,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Limoges CSP,payroll_dnccg,1.848,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,LDLC ASVEL,payroll_dnccg,4.546,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,AS Monaco Basket,payroll_dnccg,20.134,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,SLUC Nancy Basket,payroll_dnccg,1.733,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Nanterre 92,payroll_dnccg,1.598,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Paris Basketball,payroll_dnccg,7.970,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,Saint-Quentin Basket-Ball,payroll_dnccg,1.663,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2025-26,SIG Strasbourg,payroll_dnccg,1.864,https://cdn.lnb.fr/uploads/content-library/e0645ba3c01ab4ec93d0376812e175afc201fafa7958aa2b7264766ee102e1d0.pdf
+2024-25,Betclic ELITE (all clubs),operating_result,-34.0,https://cdn.lnb.fr/uploads/content-library/ae533f4f33a596f9863a45176bf64cc3e9ca72b58781c3e51a0a3933621622cc.pdf
+2024-25,Betclic ELITE (all clubs),net_result,-0.8,https://cdn.lnb.fr/uploads/content-library/ae533f4f33a596f9863a45176bf64cc3e9ca72b58781c3e51a0a3933621622cc.pdf
+2024-25,EuroLeague clubs (Monaco + ASVEL + Paris),operating_result,-32.2,https://cdn.lnb.fr/uploads/content-library/ae533f4f33a596f9863a45176bf64cc3e9ca72b58781c3e51a0a3933621622cc.pdf
+2024-25,AS Monaco Basket,operating_result,-20.0,https://cdn.lnb.fr/uploads/content-library/ae533f4f33a596f9863a45176bf64cc3e9ca72b58781c3e51a0a3933621622cc.pdf

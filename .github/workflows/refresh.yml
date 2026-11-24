@@ -1,7 +1,7 @@
-# Monthly market-data refresh + dashboard rebuild.
-# Deliberately runs --market-only: scraped annual sources (BasketNews, Forbes
-# archives, EuroLeague API) are refreshed locally and committed — CI never
-# scrapes (no data/raw cache on runners, and the sources change annually).
+# Monthly refresh of share prices, FX and CPI, then a dashboard rebuild.
+# Uses --market-only on purpose: the scraped sources (BasketNews, Forbes
+# archive, EuroLeague API) only change once a year and are refreshed locally,
+# and the runner has no data/raw cache anyway.
 name: monthly-refresh
 
 on:

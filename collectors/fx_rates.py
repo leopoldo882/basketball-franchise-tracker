@@ -1,9 +1,8 @@
-"""Daily FX rates for converting listed-club prices to EUR, via yfinance.
+"""Daily exchange rates from Yahoo Finance, used to convert prices to EUR.
 
-Pairs are quoted as units of currency per 1 EUR, so a price in that currency
-divided by the rate gives EUR. Refreshed on every run, like market data.
-Availability verified: EURGBP since 1999, EURUSD/EURDKK since 2003-12 — this
-is why the EUR-converted index starts in 2004 (see methodology.md).
+Each rate is units of the other currency per 1 EUR, so price / rate = EUR.
+EURGBP goes back to 1999 but EURUSD and EURDKK only to Dec 2003, which is
+why the EUR index starts in January 2004.
 """
 
 import pandas as pd
