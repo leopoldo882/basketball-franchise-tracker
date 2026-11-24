@@ -12,13 +12,13 @@ the S&P 500 and European equities.
 ## What it covers
 
 - An equal-weight index of 12 listed European football clubs in euros against the S&P 500 and MSCI
-  Europe (with dividends), plus drawdowns and correlations
+  Europe (with dividends): growth, volatility, Sharpe ratio, beta and drawdowns
 - NBA team value growth, the gap between rich and poor teams, and value/revenue multiples over six
   Forbes editions, against the S&P 500 over the same months
-- NBA sale prices compared with the last Forbes estimate before each deal, and how far Sportico and
-  CNBC differ from Forbes
-- EuroLeague budget rank vs league position for each season, and French top-division budgets from
-  the league's own filings
+- Revenue multiples side by side: NBA teams, NBA control sales and listed football clubs, plus each
+  sale price against the last Forbes estimate
+- EuroLeague budget rank vs league position for each season, the JB Capital valuation of the league,
+  and French top-division budgets from the league's own filings
 
 ## Stack
 
@@ -31,8 +31,9 @@ no web framework.
 ```
 pip install -r requirements.txt
 python run_pipeline.py                # everything
-python run_pipeline.py --market-only  # prices only, what the monthly Action runs
+python run_pipeline.py --market-only  # market data only, what the monthly Action runs
 python run_pipeline.py --notepack     # also chart PNGs and facts.md in note_support/
+python -m unittest discover -s tests  # checks on the core calculations
 ```
 
 `--notepack` also needs `pip install -r requirements-notepack.txt`.
@@ -41,7 +42,8 @@ python run_pipeline.py --notepack     # also chart PNGs and facts.md in note_sup
 
 - `collectors/`: one script per data source
 - `analysis/`: the calculations; results go to `analysis/output/`
-- `dashboard/build.py`: writes `docs/index.html`
+- `dashboard/`: `charts.py` draws the charts, `build.py` writes `docs/index.html`
+- `tests/`: unit tests for the calculations
 - `data/`: clean CSVs. `data/manual/` holds hand-entered figures (columns explained in its
   README); `data/raw/` keeps downloaded pages locally and isn't committed
 - `note_support/`: every chart as a PNG and a sheet of the computed numbers with sources

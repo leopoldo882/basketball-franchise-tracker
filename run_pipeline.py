@@ -2,9 +2,10 @@
 analysis and rebuild the dashboard.
 
     python run_pipeline.py                everything
-    python run_pipeline.py --market-only  only prices, FX and CPI (what the
-                                          monthly GitHub Action runs; it never
-                                          scrapes, there's no data/raw cache there)
+    python run_pipeline.py --market-only  only prices, FX, club fundamentals and
+                                          rates (what the monthly GitHub Action
+                                          runs; it never scrapes, there's no
+                                          data/raw cache there)
     python run_pipeline.py --notepack     also export chart PNGs and facts.md to
                                           note_support/ (needs requirements-notepack.txt)
 """
@@ -13,9 +14,10 @@ import sys
 
 import pandas as pd
 
-from analysis import budget_vs_performance, cross_checks, listed_index, multiples_cross_league, nba_growth
-from collectors import (basketnews_budgets, common, euroleague_standings, forbes_wayback,
-                        fx_rates, market_data, us_cpi)
+from analysis import (budget_vs_performance, cross_checks, listed_index, multiples_cross_league,
+                      nba_growth, risk_return)
+from collectors import (basketnews_budgets, club_fundamentals, common, ecb_rate, euroleague_standings,
+                        forbes_wayback, fx_rates, market_data, us_cpi)
 from dashboard import build as dashboard_build
 
 MANUAL_DIR = common.DATA_DIR / "manual"
@@ -130,7 +132,9 @@ def main():
         forbes_wayback.run()
     market_data.run()
     fx_rates.run()
+    club_fundamentals.run()
     us_cpi.run()
+    ecb_rate.run()
 
     errors = validate_manual_files()
     check_team_mapping()
@@ -140,6 +144,7 @@ def main():
 
     print("\n== analysis ==")
     listed_index.run()
+    risk_return.run()
     nba_growth.run()
     budget_vs_performance.run()
     multiples_cross_league.run()

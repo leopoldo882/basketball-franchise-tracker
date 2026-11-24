@@ -10,7 +10,8 @@ monthly GitHub Action never builds this folder, so CI doesn't need kaleido.
 import pandas as pd
 
 from collectors import common
-from dashboard.build import build_figures, data_date, headline_stats
+from dashboard.build import data_date, headline_stats
+from dashboard.charts import build_figures
 
 NOTE_DIR = common.PROJECT_ROOT / "note_support"
 AOUT = common.PROJECT_ROOT / "analysis" / "output"
@@ -22,8 +23,11 @@ def export_pngs():
         import kaleido  # noqa: F401  (plotly uses it behind the scenes)
     except ImportError:
         raise SystemExit("kaleido is not installed: pip install -r requirements-notepack.txt")
+    # charts from an earlier version of the page would otherwise linger here
+    for old in NOTE_DIR.glob("chart-*.png"):
+        old.unlink()
     names = []
-    for div_id, _title, _note, fig in build_figures():
+    for div_id, fig in build_figures():
         path = NOTE_DIR / f"{div_id}.png"
         fig.write_image(path, width=1200, scale=2)
         names.append(path.name)
@@ -44,6 +48,8 @@ def table(header, rows):
 def write_facts():
     growth = pd.read_csv(AOUT / "nba_growth.csv")
     stats = pd.read_csv(AOUT / "listed_index_stats.csv")
+    risk = pd.read_csv(AOUT / "risk_return.csv")
+    football = pd.read_csv(AOUT / "football_multiples.csv")
     corr = pd.read_csv(AOUT / "budget_rank_correlations.csv")
     recon = pd.read_csv(AOUT / "budget_join_reconciliation.csv")
     deals = pd.read_csv(AOUT / "transactions_vs_forbes.csv")
@@ -62,8 +68,17 @@ def write_facts():
         "## Headline numbers",
         "",
     ]
-    for num, label, sub in headline_stats(growth, stats, corr):
+    for num, label, sub in headline_stats():
         lines.append(f"- **{num}**: {label} ({sub})")
+
+    lines += ["", "## Risk and return over a common window (analysis/output/risk_return.csv)", ""]
+    lines += table(["series", "window", "months", "CAGR", "volatility", "Sharpe", "max drawdown",
+                    "beta vs S&P 500", "beta vs MSCI Europe", "correlation vs S&P 500"],
+                   [(r.series, f"{r.window_start} to {r.window_end}", r.n_months, r.cagr, r.volatility, r.sharpe,
+                     r.max_drawdown, r.beta_vs_sp500, r.beta_vs_msci_europe, r.correlation_vs_sp500)
+                    for _, r in risk.iterrows()])
+    lines += ["", "Source: monthly index returns in EUR (Yahoo Finance); risk-free rate = ECB deposit "
+                  "facility rate, monthly average (ECB Data Portal)."]
 
     lines += ["", "## Listed index (analysis/output/listed_index_stats.csv)", ""]
     lines += table(["series", "metric", "value", "window", "months", "note"],
@@ -88,11 +103,20 @@ def write_facts():
         compared = pd.notna(d.deal_over_forbes)
         rows.append((d.date, d.team, d.buyer, f"{d.implied_valuation_usd_m:.0f}",
                      f"{d.forbes_value_usd_m:.0f} ({int(d.forbes_edition)})" if compared else "",
-                     f"{d.deal_over_forbes:.3f}" if compared else "", text(d.notes)))
-    lines += table(["agreed", "team", "buyer", "deal valuation $M", "Forbes $M (edition)", "deal / Forbes", "notes"],
-                   rows)
+                     f"{d.deal_over_forbes:.3f}" if compared else "",
+                     f"{d.deal_ev_to_revenue:.2f}" if compared else "", text(d.notes)))
+    lines += table(["agreed", "team", "buyer", "deal valuation $M", "Forbes $M (edition)", "deal / Forbes",
+                    "deal / revenue", "notes"], rows)
     lines += ["", "Source: one news link per deal in data/manual/transactions.csv. Compared only when "
                   "the Forbes list was published less than 12 months before the deal."]
+
+    lines += ["", "## Listed football clubs: EV / revenue (analysis/output/football_multiples.csv)", ""]
+    lines += table(["club", "market value €M", "enterprise value €M", "revenue €M (12 months)", "EV / revenue"],
+                   [(c.club, c.market_cap_eur_m, c.ev_eur_m, c.revenue_eur_m, c.ev_to_revenue)
+                    for _, c in football.iterrows()])
+    lines += ["", f"Median: {football.ev_to_revenue.median():.2f}x ({len(football)} clubs). Source: Yahoo "
+                  f"Finance via yfinance, fetched {football.fetched_on.iloc[0]}; converted to EUR at the latest "
+                  "yfinance FX rates. NBA median value / revenue for comparison is in the NBA table above."]
 
     lines += ["", "## Other publishers vs Forbes (analysis/output/publisher_divergence.csv)", ""]
     lines += table(["publisher", "list", "Forbes edition", "teams", "mean diff", "mean abs diff", "max abs diff"],

@@ -5,12 +5,23 @@ Each section says where its numbers come from. No commentary.
 
 ## Headline numbers
 
-- **16.1%**: NBA average team value, growth per year (2016 to 2026 Forbes editions) (S&P 500 with dividends, same months: 15.6%)
-- **12.2%**: 12 listed European football clubs, growth per year in EUR (2012-09 to 2026-11)
-- **12.2x**: Median NBA team value / revenue, 2026 edition (6.3x in the 2016 edition)
+- **16.1%**: NBA average team value, growth per year (Forbes 2016 to 2026) (S&P 500 with dividends over the same months: 15.6%)
+- **0.60**: Sharpe ratio of the 12 listed European football clubs, in euros (S&P 500: 0.93, Nov 2015 to Nov 2026)
+- **12.2x vs 1.8x**: Median enterprise value / revenue, NBA teams vs listed European football clubs (Forbes 2026; Yahoo Finance, last 12 months)
 - **1.02x to 1.41x**: NBA control sales vs the last Forbes value before the deal (5 deals, 2025 to 2026)
-- **0.56 to 0.83**: EuroLeague budget rank vs league position (Spearman) (range across seasons and budget definitions)
-- **€1.41bn**: EuroLeague league company, 2025-26 valuation (JB Capital, March 2026)
+- **0.56 to 0.83**: Rank correlation between EuroLeague budget and league position (Spearman, by season and budget definition)
+- **€1.41bn**: Valuation of the EuroLeague league company, 2025-26 (JB Capital, March 2026)
+
+## Risk and return over a common window (analysis/output/risk_return.csv)
+
+| series | window | months | CAGR | volatility | Sharpe | max drawdown | beta vs S&P 500 | beta vs MSCI Europe | correlation vs S&P 500 |
+|---|---|---|---|---|---|---|---|---|---|
+| eu_football_fixed12 | 2015-11 to 2026-11 | 133 | 0.099 | 0.1689 | 0.6 | -0.2986 | 0.604 | 0.701 | 0.513 |
+| us_holdco | 2015-11 to 2026-11 | 133 | 0.1454 | 0.2049 | 0.73 | -0.3606 | 0.788 | 0.766 | 0.552 |
+| sp500tr_eur | 2015-11 to 2026-11 | 133 | 0.139 | 0.1434 | 0.929 | -0.1958 | 1.0 | 0.788 | 1.0 |
+| ieur_eur | 2015-11 to 2026-11 | 133 | 0.078 | 0.1382 | 0.557 | -0.2449 | 0.732 | 1.0 | 0.76 |
+
+Source: monthly index returns in EUR (Yahoo Finance); risk-free rate = ECB deposit facility rate, monthly average (ECB Data Portal).
 
 ## Listed index (analysis/output/listed_index_stats.csv)
 
@@ -19,22 +30,22 @@ Each section says where its numbers come from. No commentary.
 | eu_football | cumulative_return | 1.6112 | 2004-02 to 2026-11 | 274 |  |
 | eu_football | cagr | 0.0429 | 2004-02 to 2026-11 | 274 |  |
 | eu_football | max_drawdown | -0.6352 | 2004-02 to 2026-11 | 274 |  |
-| eu_football_fixed12 | cumulative_return | 4.1316 | 2012-09 to 2026-11 | 171 |  |
+| eu_football_fixed12 | cumulative_return | 4.1315 | 2012-09 to 2026-11 | 171 |  |
 | eu_football_fixed12 | cagr | 0.1216 | 2012-09 to 2026-11 | 171 |  |
 | eu_football_fixed12 | max_drawdown | -0.2986 | 2012-09 to 2026-11 | 171 |  |
-| us_holdco | cumulative_return | 4.4473 | 2015-10 to 2026-11 | 134 |  |
+| us_holdco | cumulative_return | 4.4467 | 2015-10 to 2026-11 | 134 |  |
 | us_holdco | cagr | 0.1639 | 2015-10 to 2026-11 | 134 |  |
 | us_holdco | max_drawdown | -0.3606 | 2015-10 to 2026-11 | 134 |  |
-| sp500tr_eur | cumulative_return | 10.2409 | 2004-02 to 2026-11 | 274 |  |
+| sp500tr_eur | cumulative_return | 10.2397 | 2004-02 to 2026-11 | 274 |  |
 | sp500tr_eur | cagr | 0.1118 | 2004-02 to 2026-11 | 274 |  |
 | sp500tr_eur | max_drawdown | -0.4694 | 2004-02 to 2026-11 | 274 |  |
-| ieur_eur | cumulative_return | 1.5853 | 2014-07 to 2026-11 | 149 | ETF used as a total return proxy, exists from 2014 |
+| ieur_eur | cumulative_return | 1.585 | 2014-07 to 2026-11 | 149 | ETF used as a total return proxy, exists from 2014 |
 | ieur_eur | cagr | 0.0795 | 2014-07 to 2026-11 | 149 | ETF used as a total return proxy, exists from 2014 |
 | ieur_eur | max_drawdown | -0.2449 | 2014-07 to 2026-11 | 149 | ETF used as a total return proxy, exists from 2014 |
 | stoxx_eur | cumulative_return | 1.6172 | 2004-05 to 2026-11 | 271 | price-only index, not total return |
 | stoxx_eur | cagr | 0.0435 | 2004-05 to 2026-11 | 271 | price-only index, not total return |
 | stoxx_eur | max_drawdown | -0.5641 | 2004-05 to 2026-11 | 271 | price-only index, not total return |
-| eu_football_common_window | cumulative_return | 4.1316 | 2012-09 to 2026-11 | 171 | staggered index measured over the fixed-12 months |
+| eu_football_common_window | cumulative_return | 4.1315 | 2012-09 to 2026-11 | 171 | staggered index measured over the fixed-12 months |
 | eu_football_common_window | cagr | 0.1216 | 2012-09 to 2026-11 | 171 | staggered index measured over the fixed-12 months |
 | eu_football_common_window | max_drawdown | -0.2986 | 2012-09 to 2026-11 | 171 | staggered index measured over the fixed-12 months |
 | eu_football | correlation_vs_sp500tr_eur | 0.4397 | 2004-02 to 2026-11 | 274 |  |
@@ -45,7 +56,7 @@ Each section says where its numbers come from. No commentary.
 | eu_football_fixed12 | correlation_vs_stoxx_eur | 0.5504 | 2012-09 to 2026-11 | 171 | price-only index, not total return |
 | us_holdco | correlation_vs_sp500tr_eur | 0.5751 | 2015-10 to 2026-11 | 134 |  |
 | us_holdco | correlation_vs_ieur_eur | 0.5334 | 2015-10 to 2026-11 | 134 | ETF used as a total return proxy, exists from 2014 |
-| us_holdco | correlation_vs_stoxx_eur | 0.5339 | 2015-10 to 2026-11 | 134 | price-only index, not total return |
+| us_holdco | correlation_vs_stoxx_eur | 0.534 | 2015-10 to 2026-11 | 134 | price-only index, not total return |
 
 Source: Yahoo Finance adjusted closes via yfinance, converted to EUR with yfinance FX rates. Index rules in methodology.md.
 
@@ -107,18 +118,37 @@ Source: Forbes list data archived on the Wayback Machine (capture links in data/
 
 ## NBA control sales vs the last Forbes value (analysis/output/transactions_vs_forbes.csv)
 
-| agreed | team | buyer | deal valuation $M | Forbes $M (edition) | deal / Forbes | notes |
-|---|---|---|---|---|---|---|
-| 2022-12 | Phoenix Suns | Mat Ishbia group | 4000 |  |  | Includes the WNBA Mercury; approved Feb 2023 |
-| 2023-06 | Charlotte Hornets | Gabe Plotkin / Rick Schnall group | 3000 |  |  | Majority stake from Michael Jordan who kept a minority share; approved Jul 2023 |
-| 2023-11 | Dallas Mavericks | Adelson / Dumont families | 3500 |  |  | Mark Cuban kept 27%; approved Dec 2023 |
-| 2025-03 | Boston Celtics | Bill Chisholm group | 6100 | 6000 (2024) | 1.017 | Approved Aug 2025; remaining shares by 2028 at up to about 7300; Sixth Street is in the group (next row) |
-| 2025-06 | Los Angeles Lakers | Mark Walter | 10000 | 7100 (2024) | 1.408 | Approved Oct 2025; Buss family kept about 15% |
-| 2025-08 | Portland Trail Blazers | Tom Dundon group | 4000 | 3500 (2024) | 1.143 | Approved Mar 2026; 80.1% at a 4.0bn valuation then the last 19.9% at 4.5bn by Sep 2028 (reported as about 4.25bn overall) |
-| 2026-08 | Los Angeles Lakers | Josh Kushner / Bob Iger group | 12500 | 10000 (2025) | 1.250 | Walter selling 14 months after buying at 10bn; Buss family selling its last 17.8% at the same valuation; not yet approved by the NBA when entered (Nov 2026) |
-| 2026-08 | Minnesota Timberwolves | Marc Stad | 4500 | 3600 (2025) | 1.250 | Includes the WNBA Lynx; buys most of Marc Lore's stake; not yet approved by the NBA when entered (Nov 2026) |
+| agreed | team | buyer | deal valuation $M | Forbes $M (edition) | deal / Forbes | deal / revenue | notes |
+|---|---|---|---|---|---|---|---|
+| 2022-12 | Phoenix Suns | Mat Ishbia group | 4000 |  |  |  | Includes the WNBA Mercury; approved Feb 2023 |
+| 2023-06 | Charlotte Hornets | Gabe Plotkin / Rick Schnall group | 3000 |  |  |  | Majority stake from Michael Jordan who kept a minority share; approved Jul 2023 |
+| 2023-11 | Dallas Mavericks | Adelson / Dumont families | 3500 |  |  |  | Mark Cuban kept 27%; approved Dec 2023 |
+| 2025-03 | Boston Celtics | Bill Chisholm group | 6100 | 6000 (2024) | 1.017 | 13.35 | Approved Aug 2025; remaining shares by 2028 at up to about 7300; Sixth Street is in the group (next row) |
+| 2025-06 | Los Angeles Lakers | Mark Walter | 10000 | 7100 (2024) | 1.408 | 19.16 | Approved Oct 2025; Buss family kept about 15% |
+| 2025-08 | Portland Trail Blazers | Tom Dundon group | 4000 | 3500 (2024) | 1.143 | 11.94 | Approved Mar 2026; 80.1% at a 4.0bn valuation then the last 19.9% at 4.5bn by Sep 2028 (reported as about 4.25bn overall) |
+| 2026-08 | Los Angeles Lakers | Josh Kushner / Bob Iger group | 12500 | 10000 (2025) | 1.250 | 22.69 | Walter selling 14 months after buying at 10bn; Buss family selling its last 17.8% at the same valuation; not yet approved by the NBA when entered (Nov 2026) |
+| 2026-08 | Minnesota Timberwolves | Marc Stad | 4500 | 3600 (2025) | 1.250 | 14.06 | Includes the WNBA Lynx; buys most of Marc Lore's stake; not yet approved by the NBA when entered (Nov 2026) |
 
 Source: one news link per deal in data/manual/transactions.csv. Compared only when the Forbes list was published less than 12 months before the deal.
+
+## Listed football clubs: EV / revenue (analysis/output/football_multiples.csv)
+
+| club | market value €M | enterprise value €M | revenue €M (12 months) | EV / revenue |
+|---|---|---|---|---|
+| Olympique Lyonnais | 221.9 | 706.6 | 143.3 | 4.93 |
+| Manchester United | 3146.0 | 3817.0 | 816.8 | 4.67 |
+| Sporting CP | 188.9 | 387.5 | 149.6 | 2.59 |
+| FC Porto | 59.8 | 354.4 | 153.4 | 2.31 |
+| Juventus | 605.4 | 876.6 | 458.3 | 1.91 |
+| Lazio | 121.3 | 247.7 | 134.2 | 1.85 |
+| FC København (Parken) | 329.1 | 474.6 | 270.2 | 1.76 |
+| Brøndby | 41.7 | 59.8 | 37.4 | 1.6 |
+| Benfica | 142.1 | 327.0 | 214.4 | 1.53 |
+| Celtic | 213.2 | 163.1 | 132.7 | 1.23 |
+| Ajax | 141.2 | 204.6 | 188.3 | 1.09 |
+| Borussia Dortmund | 340.5 | 359.9 | 487.1 | 0.74 |
+
+Median: 1.81x (12 clubs). Source: Yahoo Finance via yfinance, fetched 2026-11-24; converted to EUR at the latest yfinance FX rates. NBA median value / revenue for comparison is in the NBA table above.
 
 ## Other publishers vs Forbes (analysis/output/publisher_divergence.csv)
 

@@ -21,6 +21,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests
       - run: python run_pipeline.py --market-only
       - name: Commit refreshed data and dashboard
         run: |

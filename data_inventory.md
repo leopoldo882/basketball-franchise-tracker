@@ -86,7 +86,18 @@ business, which makes it the only listed basketball team in the dataset.
 
 Benchmarks: ^SP500TR (S&P 500 total return, from 1988), ^GSPC (price), ^STOXX (STOXX Europe 600,
 price only, from 2004), IEUR (iShares Core MSCI Europe ETF, from 2014). FX: EURUSD=X, EURGBP=X,
-EURDKK=X. US CPI: FRED CPIAUCSL. All scraped, refreshed monthly by GitHub Actions.
+EURDKK=X. All scraped, refreshed monthly by GitHub Actions.
+
+**Club fundamentals.** Market value, enterprise value and trailing 12-month revenue for the 12
+clubs, from yfinance's `Ticker.info`. Current values only, no history, so each monthly run replaces
+the file. Watch out for currencies: Manchester United trades in USD but reports in GBP, and Yahoo's
+own EV/revenue ratio doesn't convert. Scraped.
+
+**Rates and inflation.** ECB deposit facility rate from the ECB Data Portal
+(`data-api.ecb.europa.eu`, series FM.D.U2.EUR.4F.KR.DFR.LEV, daily from 1999, no key), used as the
+euro risk-free rate. US CPI from FRED (CPIAUCSL). FRED's download was down for a while during
+testing in November 2026, so both collectors keep their last saved file if the source doesn't
+respond. Scraped.
 
 ## Deals
 

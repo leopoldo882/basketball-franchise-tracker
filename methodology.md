@@ -61,6 +61,33 @@ Alternative: price indices throughout (^GSPC, ^STOXX). Simpler but not like for 
 splice STOXX and IEUR into one series, since joining a price index to a total-return one creates a
 series that doesn't exist.
 
+### Risk and return on one common window
+The risk table (growth, volatility, Sharpe ratio, max drawdown, beta) measures the four listed
+series over the same months: from November 2015, the first month all four have a return, to the
+latest month. Volatility is the standard deviation of monthly returns times the square root of 12.
+Beta is measured against both the S&P 500 and MSCI Europe, since a European investor could use
+either as the market.
+
+Alternative: give each series its own full history. The numbers would look more complete but
+couldn't be compared row by row.
+
+### Sharpe ratio uses the ECB deposit rate
+All returns in the table are in euros, so the risk-free rate is the ECB deposit facility rate
+(monthly average of the daily rate, from the ECB Data Portal). It was negative from 2014 to 2022,
+which the calculation keeps as it is.
+
+Alternative: €STR (only exists from 2019) or a zero risk-free rate (simpler, but overstates the
+Sharpe ratio whenever rates are positive, as in 2023 to 2026).
+
+### No risk statistics for NBA values
+Forbes values are yearly estimates, which move far more smoothly than market prices (the same
+appraisal smoothing problem private equity and property indices have). Volatility or a Sharpe
+ratio calculated on them would make NBA teams look much safer than they are, so the risk table
+only covers listed series.
+
+Alternative: de-smooth the series (e.g. the Geltner method used for property indices). Not worth
+it with six data points.
+
 ### Every statistic has its own window
 Each row in listed_index_stats.csv has its start month, end month and number of months, and
 correlations only use months where both series exist. That way two numbers over different periods
@@ -140,6 +167,24 @@ priced at $4.5bn by 2028). Deals not yet approved are included and marked.
 Alternative: interpolate between the Forbes editions either side of the deal. That uses
 information that wasn't public when the price was agreed.
 
+The same row also shows deal valuation divided by the revenue Forbes reported for that team in
+the same edition, so deals can be put next to the other revenue multiples.
+
+### Revenue multiples for listed football clubs
+For each listed club, enterprise value and trailing 12-month revenue come from Yahoo Finance and
+are both converted to euros at the latest exchange rate before dividing. I don't use Yahoo's own
+EV/revenue figure because it mixes currencies: Manchester United's enterprise value is in dollars
+and its revenue in pounds, which inflated the ratio from about 4.7x to 6.1x. These are snapshots:
+Yahoo only gives today's values, so they're refreshed monthly. MSGK is left out until its
+trailing revenue no longer includes the Rangers (spun off in October 2026).
+
+Alternative: market value / revenue, which ignores debt (and some clubs carry a lot of it, e.g.
+Lyon), or Deloitte's Money League revenue, which only covers the 20 biggest clubs.
+
+The NBA and football multiples are not like for like: Forbes estimates the value of a whole team
+including control, while a listed club's price is for small minority stakes. The gap between them
+partly reflects that control premium.
+
 ## EuroLeague
 
 ### Regular-season standings only
@@ -207,12 +252,17 @@ SB League clubs don't publish budgets or accounts.
   people's content).
 - Hand-entered figures live in data/manual/ with a source link on every row; the pipeline checks
   their columns, number fields and duplicates on every run.
-- The monthly GitHub Action only refreshes market data. The PNG export for the note pack needs
-  kaleido and only runs locally (`--notepack`).
+- The monthly GitHub Action only refreshes market data (prices, FX, club fundamentals, the ECB
+  rate and CPI). If FRED or the ECB is down, the last saved copy is kept instead of failing.
+- tests/test_calculations.py checks the core calculations (CAGR, drawdown, beta, Sharpe, the
+  BasketNews parser, the Forbes edition matching, currency conversion) on small inputs with known
+  answers. The GitHub Action runs them before every refresh.
+- The PNG export for the note pack needs kaleido and only runs locally (`--notepack`).
 
 ## Changes
 
 - Jul 2026: first version (Forbes 2016/2019/2022, BasketNews, EuroLeague API, listed index).
 - Nov 2026: added Forbes 2024 to 2026 from the same archive, the publisher and deal checks, French,
   Spanish and Italian budgets; switched MSGS to MSGK and EFG.PA to OLG.PA after the 2026 ticker
-  changes.
+  changes. Then added the risk table (volatility, Sharpe, beta), revenue multiples for listed
+  football clubs and NBA deals, and unit tests.

@@ -66,21 +66,26 @@ def deals_vs_forbes(forbes):
     rows = []
     for _, deal in deals.iterrows():
         edition, months = latest_forbes_before(pd.Period(deal.date, "M"))
-        forbes_value = None
+        forbes_value = forbes_revenue = None
         if edition is not None and months <= MAX_MONTHS_SINCE_FORBES:
             match = forbes[(forbes.list_year == edition) & (forbes.team == deal.team)]
             if not match.empty:
                 forbes_value = float(match.value_usd_m.iloc[0])
+                forbes_revenue = float(match.revenue_usd_m.iloc[0])
 
+        compared = forbes_value is not None
         rows.append({
             "date": deal.date,
             "team": deal.team,
             "buyer": deal.buyer,
             "implied_valuation_usd_m": deal.implied_valuation_usd_m,
-            "forbes_edition": edition if forbes_value else "",
-            "forbes_value_usd_m": forbes_value if forbes_value else "",
-            "months_after_forbes": months if forbes_value else "",
-            "deal_over_forbes": round(deal.implied_valuation_usd_m / forbes_value, 3) if forbes_value else "",
+            "forbes_edition": edition if compared else "",
+            "forbes_value_usd_m": forbes_value if compared else "",
+            "forbes_revenue_usd_m": forbes_revenue if compared else "",
+            "months_after_forbes": months if compared else "",
+            "deal_over_forbes": round(deal.implied_valuation_usd_m / forbes_value, 3) if compared else "",
+            # deal valuation over the revenue Forbes reported for that team
+            "deal_ev_to_revenue": round(deal.implied_valuation_usd_m / forbes_revenue, 2) if compared else "",
             "notes": deal.notes,
         })
     return pd.DataFrame(rows).sort_values("date")
