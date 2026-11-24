@@ -3,12 +3,12 @@
 Colour follows the subject across the whole page:
   blue    European football clubs
   orange  NBA teams and US sports companies
-  aqua    European basketball (EuroLeague, French league)
+  teal    European basketball (EuroLeague, French league)
   greys   benchmarks and other context
-The three hues are the first three slots of a colour-blind-safe palette.
-Lines are 2px, bars are thin with rounded ends, and only a few values are
-written on the charts: the rest are in the hover tooltips and in the tables
-under each chart.
+I checked the three hues with a colour-blindness simulator: every pair stays
+distinguishable and each has at least 3:1 contrast against the page.
+Lines are 2px, bars are thin, and only a few values are written on the
+charts: the rest are in the hover tooltips and in the tables under each chart.
 """
 
 import pandas as pd
@@ -28,18 +28,19 @@ pio.json.config.default_engine = "json"
 AOUT = common.PROJECT_ROOT / "analysis" / "output"
 MANUAL = common.DATA_DIR / "manual"
 
-FOOTBALL = "#2a78d6"
-NBA = "#eb6834"
-EURO_BASKET = "#1baf7a"
-BENCHMARK = "#52514e"   # S&P 500
-CONTEXT = "#898781"     # other benchmarks, earlier seasons, projections
-INK = "#0b0b0b"
-INK_2 = "#52514e"
-MUTED = "#898781"
-GRID = "#e1e0d9"
-AXIS = "#c3c2b7"
-PAGE = "#f9f9f7"
-FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif'
+FOOTBALL = "#2d63a8"
+NBA = "#de6b2a"
+EURO_BASKET = "#00876c"
+BENCHMARK = "#4a4843"   # S&P 500
+CONTEXT = "#8f8b82"     # other benchmarks, earlier seasons, projections
+INK = "#1c1b19"
+INK_2 = "#4a4843"
+MUTED = "#7d7970"
+GRID = "#e6e2d8"
+AXIS = "#c9c4b8"
+PAGE = "#f8f6f1"
+# IBM Plex Sans is loaded by the page; the PNG export falls back to Helvetica/Arial
+FONT = '"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif'
 
 EUROLEAGUE_FRENCH_CLUBS = ["AS Monaco Basket", "LDLC ASVEL", "Paris Basketball"]
 
@@ -68,8 +69,8 @@ def style(fig, height, legend=True, hover="x unified", margin=None):
         legend=dict(orientation="h", x=0, xanchor="left", y=1.02, yanchor="bottom",
                     font=dict(size=12, color=INK_2), bgcolor="rgba(0,0,0,0)"),
         hovermode=hover,
-        hoverlabel=dict(bgcolor="#ffffff", bordercolor=AXIS, font=dict(family=FONT, size=12, color=INK)),
-        barcornerradius=4,
+        hoverlabel=dict(bgcolor="#fffdf8", bordercolor=AXIS, font=dict(family=FONT, size=12, color=INK)),
+        barcornerradius=1,
     )
     # automargin grows the margin when tick labels are longer than it allows
     fig.update_xaxes(showgrid=False, showline=True, linecolor=AXIS, ticks="outside", tickcolor=AXIS,
@@ -187,7 +188,7 @@ def chart_listed_since_2004(monthly):
 
 def chart_drawdown(monthly):
     fig = go.Figure()
-    for name, color, fill in [("eu_football_fixed12", FOOTBALL, "rgba(42,120,214,0.10)"),
+    for name, color, fill in [("eu_football_fixed12", FOOTBALL, "rgba(45,99,168,0.10)"),
                               ("sp500tr_eur", BENCHMARK, None)]:
         s = monthly[(monthly.series == name) & (monthly.date >= "2012-09-01")].set_index("date").level_eur
         level = rebase(s)

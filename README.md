@@ -5,7 +5,7 @@ A data pipeline and dashboard on sports teams as an investment. It collects NBA 
 EuroLeague clubs and the share prices of 12 listed European football clubs, and compares them with
 the S&P 500 and European equities.
 
-**Live dashboard:** _GitHub Pages link_
+**Live dashboard:** https://leopoldo882.github.io/basketball-franchise-tracker/
 
 ![Dashboard screenshot](docs/screenshot.png)
 
@@ -51,3 +51,8 @@ python -m unittest discover -s tests  # checks on the core calculations
 [methodology.md](methodology.md) explains each choice behind the numbers and the alternative I
 didn't take. [data_inventory.md](data_inventory.md) covers where each source comes from and how it's
 collected.
+
+## Licence
+
+The code is MIT licensed (see [LICENSE](LICENSE)). The figures in `data/` belong to the sources
+listed in data_inventory.md and are used here for non-commercial research.

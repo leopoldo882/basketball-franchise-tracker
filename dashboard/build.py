@@ -16,7 +16,21 @@ from dashboard.charts import AOUT, AXIS, CONFIG_DEFAULT, GRID, INK, INK_2, MANUA
 
 # Set this once the repo is on GitHub, e.g. "https://github.com/<user>/<repo>".
 # While it's empty the page shows file paths instead of links to the data.
-REPO_URL = ""
+REPO_URL = "https://github.com/leopoldo882/basketball-franchise-tracker"
+
+AUTHOR = "Leopoldo Lioy"
+DESCRIPTION = ("NBA franchise values, EuroLeague budgets and listed European football clubs, "
+               "compared with the stock market. Built from public data with Python.")
+
+# Source Serif 4 for the text, IBM Plex Sans for labels, tables and charts
+FONTS_URL = ("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600"
+             "&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap")
+
+# Browser tab icon: a small basketball drawn in SVG, inlined so there's no extra file
+FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
+           "%3Ccircle cx='16' cy='16' r='14' fill='%23de6b2a'/%3E"
+           "%3Cpath d='M2 16h28M16 2v28M7 6.5c5 5 5 14 0 19M25 6.5c-5 5-5 14 0 19' fill='none' "
+           "stroke='%231c1b19' stroke-width='1.6'/%3E%3C/svg%3E")
 
 OUT_DIR = common.PROJECT_ROOT / "docs"
 
@@ -51,6 +65,12 @@ def data_link(path):
 
 def link(url, text):
     return f'<a href="{esc(url)}">{esc(text)}</a>'
+
+
+def pages_url():
+    """https://github.com/<user>/<repo> -> https://<user>.github.io/<repo>/ (where GitHub Pages serves docs/)"""
+    user, repo = REPO_URL.rstrip("/").split("/")[-2:]
+    return f"https://{user.lower()}.github.io/{repo}/"
 
 
 def table(headers, rows, left_cols=1):
@@ -395,16 +415,23 @@ def run():
               "LNB / DNCCG", "data/manual/lnb_dnccg.csv", numbers(lnb_table()))]),
     ]
 
-    strip = "".join(f"<div><p class=big>{esc(n)}</p><p class=lbl>{esc(l)}</p><p class=sub>{esc(s)}</p></div>"
-                    for n, l, s in headline_stats())
-    contents = " ".join(f'<a href="#{cid}"><span>{i}</span> {esc(title)}</a>'
-                        for i, (cid, title, _, _) in enumerate(chapters, start=1))
-    contents += ' <a href="#sources">Sources</a> <a href="#caveats">Caveats</a>'
+    key_figures = "".join(f"<dt>{esc(n)}</dt><dd><p>{esc(l)}</p><p class=sub>{esc(s)}</p></dd>"
+                          for n, l, s in headline_stats())
+    toc = "".join(f'<li><a href="#{cid}"><span class=toc-no>{i}</span>{esc(title)}</a></li>'
+                  for i, (cid, title, _, _) in enumerate(chapters, start=1))
+    toc += "".join(f'<li><a href="#{cid}"><span class=toc-no></span>{name}</a></li>'
+                   for cid, name in [("sources", "Sources"), ("caveats", "Caveats"), ("about", "About")])
     body = "".join(
-        f'<section id="{cid}"><h2><span class=ch-no>{i}</span>{esc(title)}</h2><p class=lede>{esc(lede)}</p>'
+        f'<section id="{cid}"><h2><span class=ch-no>Part {i}</span>{esc(title)}</h2><p class=lede>{esc(lede)}</p>'
         + "".join(parts) + "</section>"
         for i, (cid, title, lede, parts) in enumerate(chapters, start=1))
-    repo_note = f" · {link(REPO_URL, 'Code and data on GitHub')}" if REPO_URL else ""
+
+    on_github = link(REPO_URL, "on GitHub") if REPO_URL else "on GitHub"
+    topline_repo = f"<span>{link(REPO_URL, 'Code and data')}</span>" if REPO_URL else ""
+    share_tags = ""
+    if REPO_URL:
+        share_tags = (f'<meta property="og:url" content="{pages_url()}">\n'
+                      f'<meta property="og:image" content="{pages_url()}screenshot.png">\n')
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -412,78 +439,133 @@ def run():
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>European Basketball Franchise Valuation Tracker</title>
-<meta name="description" content="NBA franchise values, EuroLeague budgets and listed football clubs compared with the stock market.">
+<meta name="description" content="{esc(DESCRIPTION)}">
+<meta name="author" content="{esc(AUTHOR)}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="European Basketball Franchise Valuation Tracker">
+<meta property="og:description" content="{esc(DESCRIPTION)}">
+{share_tags}<link rel="icon" href="{FAVICON}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="{FONTS_URL}">
 <script src="https://cdn.plot.ly/plotly-{get_plotlyjs_version()}.min.js"></script>
 <style>
-  :root {{ color-scheme: light; }}
+  :root {{ color-scheme: light;
+          --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+          --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; }}
   * {{ box-sizing: border-box; }}
-  body {{ margin: 0; background: {PAGE}; color: {INK}; line-height: 1.5;
-         font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }}
-  main {{ max-width: 920px; margin: 0 auto; padding: 40px 16px 80px; }}
-  a {{ color: #1f5fae; text-underline-offset: 2px; }}
-  code {{ font-size: 0.85em; color: {INK_2}; }}
-  header .kicker {{ margin: 0 0 6px; font-size: 0.85rem; color: {MUTED}; }}
-  h1 {{ margin: 0 0 10px; font-size: 2rem; line-height: 1.15; letter-spacing: -0.01em; }}
-  .dek {{ margin: 0 0 18px; max-width: 680px; font-size: 1.05rem; color: {INK_2}; }}
-  nav {{ display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 10px 0; font-size: 0.9rem;
-         border-top: 1px solid {INK}; border-bottom: 1px solid {AXIS}; }}
-  nav a {{ color: {INK}; text-decoration: none; }}
-  nav a:hover {{ text-decoration: underline; }}
-  nav span {{ color: {MUTED}; }}
-  .strip {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 32px; margin: 32px 0 8px; }}
-  .strip div {{ border-top: 2px solid {INK}; padding-top: 10px; }}
-  .strip p {{ margin: 0; }}
-  .strip .big {{ font-size: 1.65rem; font-weight: 650; line-height: 1.2; }}
-  .strip .lbl {{ margin-top: 4px; font-size: 0.88rem; color: {INK}; }}
-  .strip .sub {{ margin-top: 2px; font-size: 0.8rem; color: {MUTED}; }}
-  section {{ margin-top: 64px; }}
-  h2 {{ display: flex; align-items: baseline; gap: 12px; margin: 0 0 8px; padding-top: 14px;
-        border-top: 1px solid {INK}; font-size: 1.45rem; letter-spacing: -0.005em; }}
-  .ch-no {{ color: {MUTED}; font-weight: 500; }}
-  h3 {{ margin: 36px 0 10px; font-size: 1.02rem; }}
-  .lede {{ margin: 0 0 8px; max-width: 700px; color: {INK_2}; }}
-  figure {{ margin: 36px 0 0; }}
-  figcaption {{ display: flex; flex-direction: column; margin-bottom: 6px; }}
-  .fig-no {{ font-size: 0.78rem; color: {MUTED}; }}
-  .fig-title {{ font-size: 1.02rem; font-weight: 650; }}
-  .fig-sub {{ font-size: 0.9rem; color: {INK_2}; }}
-  .source {{ margin: 6px 0 0; font-size: 0.8rem; color: {MUTED}; }}
-  details {{ margin-top: 6px; font-size: 0.85rem; }}
-  summary {{ cursor: pointer; color: #1f5fae; width: fit-content; }}
-  .table-wrap {{ overflow-x: auto; margin-top: 8px; }}
-  table {{ border-collapse: collapse; width: 100%; font-size: 0.86rem; }}
-  th {{ text-align: left; font-weight: 600; color: {INK_2}; padding: 6px 10px 6px 0;
-        border-bottom: 1px solid {INK}; vertical-align: bottom; }}
-  td {{ padding: 6px 10px 6px 0; border-bottom: 1px solid {GRID}; white-space: nowrap; }}
-  th.r, td.r {{ text-align: right; font-variant-numeric: tabular-nums; padding-right: 0; padding-left: 14px; }}
-  .notes {{ padding-left: 20px; font-size: 0.9rem; color: {INK_2}; max-width: 760px; }}
-  .notes li {{ margin-bottom: 8px; }}
-  footer {{ margin-top: 56px; padding-top: 12px; border-top: 1px solid {AXIS}; font-size: 0.82rem; color: {MUTED}; }}
+  body {{ margin: 0; background: {PAGE}; color: {INK}; font: 17px/1.55 var(--serif); }}
+  main {{ max-width: 960px; margin: 0 auto; padding: 0 20px 96px; }}
+  a {{ color: inherit; text-decoration-color: {AXIS}; text-decoration-thickness: 1px; text-underline-offset: 3px; }}
+  a:hover {{ text-decoration-color: currentColor; }}
+  code {{ font: 0.92em ui-monospace, Menlo, Consolas, monospace; }}
+  .label, .ch-no, .fig-no, .topline {{ font: 600 0.72rem/1.3 var(--sans); letter-spacing: 0.08em;
+                                      text-transform: uppercase; }}
+
+  .topline {{ display: flex; flex-wrap: wrap; gap: 4px 28px; padding: 16px 0 10px;
+              border-bottom: 1px solid {INK}; color: {INK_2}; }}
+  .topline .date {{ margin-left: auto; }}
+  h1 {{ max-width: 15em; margin: 48px 0 18px; font-size: clamp(2.1rem, 5.4vw, 3.2rem); font-weight: 600;
+        line-height: 1.05; letter-spacing: -0.018em; }}
+  .dek {{ max-width: 33em; margin: 0 0 48px; font-size: 1.24rem; line-height: 1.45; color: {INK_2}; }}
+
+  .front {{ display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 56px; }}
+  .label {{ margin: 0 0 12px; color: {MUTED}; }}
+  .key {{ display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 28px; margin: 0; }}
+  .key dt, .key dd {{ margin: 0; padding: 13px 0 15px; border-top: 1px solid {GRID}; }}
+  .key dt:first-of-type, .key dd:first-of-type {{ border-top: 0; padding-top: 2px; }}
+  .key dt {{ font-size: 1.62rem; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em;
+             font-variant-numeric: lining-nums tabular-nums; }}
+  .key dd p {{ margin: 0; font: 0.94rem/1.4 var(--sans); }}
+  .key dd .sub {{ margin-top: 3px; font-size: 0.8rem; color: {MUTED}; }}
+  .toc ol {{ margin: 0; padding: 0; list-style: none; font: 0.92rem/1.35 var(--sans); }}
+  .toc li + li {{ border-top: 1px solid {GRID}; }}
+  .toc a {{ display: flex; gap: 10px; padding: 9px 0; text-decoration: none; }}
+  .toc a:hover {{ text-decoration: underline; }}
+  .toc-no {{ flex: 0 0 1.1em; color: {MUTED}; }}
+
+  section {{ margin-top: 96px; }}
+  h2 {{ margin: 0 0 14px; padding-top: 14px; border-top: 2px solid {INK};
+        font-size: 1.95rem; font-weight: 600; line-height: 1.15; letter-spacing: -0.012em; }}
+  .ch-no {{ display: block; margin-bottom: 10px; color: {MUTED}; }}
+  h3 {{ margin: 52px 0 4px; font-size: 1.22rem; font-weight: 600; }}
+  .lede {{ max-width: 35em; margin: 0; font-size: 1.12rem; color: {INK_2}; }}
+  figure {{ margin: 56px 0 0; }}
+  figcaption {{ max-width: 40em; margin-bottom: 10px; }}
+  .fig-no {{ display: block; margin-bottom: 6px; color: {MUTED}; }}
+  .fig-title {{ display: block; font-size: 1.22rem; font-weight: 600; line-height: 1.25; }}
+  .fig-sub {{ display: block; margin-top: 4px; font: 0.9rem/1.45 var(--sans); color: {INK_2}; }}
+  .source {{ max-width: 52em; margin: 8px 0 0; font: 0.78rem/1.45 var(--sans); color: {MUTED}; }}
+  .source a, .source code {{ color: {INK_2}; }}
+
+  details {{ margin-top: 10px; font: 0.85rem/1.4 var(--sans); }}
+  summary {{ width: fit-content; cursor: pointer; color: {INK_2}; }}
+  summary:hover {{ color: {INK}; }}
+  .table-wrap {{ overflow-x: auto; margin-top: 10px; }}
+  table {{ width: 100%; border-collapse: collapse; font: 0.85rem/1.4 var(--sans); font-variant-numeric: tabular-nums; }}
+  th {{ padding: 7px 12px 7px 0; border-bottom: 1px solid {INK}; text-align: left; vertical-align: bottom;
+        font-weight: 600; color: {INK_2}; }}
+  td {{ padding: 7px 12px 7px 0; border-bottom: 1px solid {GRID}; white-space: nowrap; }}
+  th.r, td.r {{ padding-right: 0; padding-left: 16px; text-align: right; }}
+  tbody tr:hover td {{ background: #f0ece3; }}
+
+  .notes {{ max-width: 38em; margin: 20px 0 0; padding-left: 1.3em; color: {INK_2}; }}
+  .notes li {{ margin-bottom: 10px; padding-left: 4px; }}
+  ol.notes li::marker {{ font: 600 0.8rem var(--sans); color: {MUTED}; }}
+  #about p {{ max-width: 35em; margin: 16px 0 0; }}
+  footer {{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; margin-top: 80px;
+            padding-top: 12px; border-top: 1px solid {INK}; font: 0.78rem/1.5 var(--sans); color: {MUTED}; }}
+  footer span:first-child {{ flex: 1 1 30em; max-width: 46em; }}
+
   @media (max-width: 760px) {{
-    main {{ padding-top: 24px; }}
-    h1 {{ font-size: 1.6rem; }}
-    .strip {{ grid-template-columns: 1fr 1fr; gap: 20px 18px; }}
-    .strip .big {{ font-size: 1.35rem; }}
+    body {{ font-size: 16px; }}
+    .topline .date {{ margin-left: 0; }}
+    h1 {{ margin-top: 32px; }}
+    .dek {{ font-size: 1.12rem; margin-bottom: 36px; }}
+    .front {{ grid-template-columns: 1fr; gap: 36px; }}
+    .key dt {{ font-size: 1.35rem; }}
+    section {{ margin-top: 72px; }}
+    h2 {{ font-size: 1.55rem; }}
   }}
-  @media (max-width: 460px) {{ .strip {{ grid-template-columns: 1fr; }} }}
+  @media (max-width: 480px) {{
+    .key {{ grid-template-columns: 1fr; }}
+    .key dt {{ padding-bottom: 4px; }}
+    .key dd, .key dd:first-of-type {{ padding-top: 0; border-top: 0; }}
+  }}
 </style>
 </head>
 <body>
 <main>
 <header>
-<p class="kicker">Research project · market data to {data_date()}{repo_note}</p>
+<div class="topline"><span>{esc(AUTHOR)}</span><span>Personal research project</span>{topline_repo}<span class="date">Market data to {data_date()}</span></div>
 <h1>European Basketball Franchise Valuation Tracker</h1>
 <p class="dek">How NBA franchises, EuroLeague clubs and listed football clubs are valued, and how those values
 compare with the stock market. Built from public sources; every figure says where its numbers come from.</p>
-<nav aria-label="Contents">{contents}</nav>
 </header>
-<div class="strip">{strip}</div>
+<div class="front">
+<div><h2 class="label">In numbers</h2><dl class="key">{key_figures}</dl></div>
+<nav class="toc" aria-label="Contents"><h2 class="label">Contents</h2><ol>{toc}</ol></nav>
+</div>
 {body}
 <section id="sources"><h2>Sources</h2>{sources()}</section>
 <section id="caveats"><h2>Caveats</h2>{caveats()}</section>
-<footer>Built with Python (requests, BeautifulSoup, pandas, yfinance, plotly). Share prices refresh on the
-3rd of each month through GitHub Actions; the yearly data is updated by hand. Not investment advice.</footer>
+<section id="about"><h2>About</h2>
+<p>I'm {esc(AUTHOR)}, a final-year BSc Economics and Finance student, and this is a personal project I started
+in July 2026. A Python pipeline downloads the public data, cleans it and rebuilds this page; the code, the data
+and a log of every method choice (with the alternative I didn't take) are {on_github}.</p>
+</section>
+<footer><span>Python: requests, BeautifulSoup, pandas, yfinance, plotly. Share prices refresh on the 3rd of each
+month through GitHub Actions; the yearly figures are updated by hand.</span><span>Not investment advice.</span></footer>
 </main>
+<script>
+// The charts are drawn before the web fonts finish loading; redraw them once
+// the fonts are in so the labels are measured with the right font.
+if (document.fonts) {{
+  document.fonts.ready.then(function () {{
+    document.querySelectorAll(".js-plotly-plot").forEach(function (chart) {{ Plotly.Plots.resize(chart); }});
+  }});
+}}
+</script>
 </body>
 </html>
 """
